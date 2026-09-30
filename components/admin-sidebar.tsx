@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import Image from "next/image"\nimport { useState } from "react"
 import {
   BarChart3,
   CheckCircle2,
@@ -75,7 +75,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
               {navigation.map((item) => (
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
-                    active={item.id === "overview"}
+                    active={active === item.id}
                     onClick={() => goTo(item.id)}
                     title={item.label}
                   >
