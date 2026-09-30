@@ -13,6 +13,9 @@
   --color-destructive: var(--destructive);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-surface: var(--surface);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-foreground: var(--foreground);
@@ -24,17 +27,38 @@
 }
 
 :root {
+  color-scheme: dark;
   --background: #09060a;
   --foreground: #f8f7f4;
   --primary: #d6003c;
-  --primary-foreground: #f8f7f4;
+  --primary-foreground: #ffffff;
   --muted: #2a0710;
-  --muted-foreground: #b8b3b0;
+  --muted-foreground: #aaa2a6;
+  --card: #100b0e;
+  --card-foreground: #f8f7f4;
+  --surface: #151014;
   --destructive: #ff3b66;
   --border: rgb(248 247 244 / 0.12);
   --input: rgb(248 247 244 / 0.12);
   --ring: #d6003c;
   --radius: 0.75rem;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: #f6f3f5;
+  --foreground: #171216;
+  --primary: #d6003c;
+  --primary-foreground: #ffffff;
+  --muted: #eee7eb;
+  --muted-foreground: #756b71;
+  --card: #ffffff;
+  --card-foreground: #171216;
+  --surface: #faf8f9;
+  --destructive: #c9003b;
+  --border: rgb(23 18 22 / 0.12);
+  --input: rgb(23 18 22 / 0.14);
+  --ring: #d6003c;
 }
 
 * {
@@ -49,22 +73,24 @@ body {
 
 html {
   background: var(--background);
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 body {
   overflow-x: hidden;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 ::selection {
-  background: rgb(214 0 60 / 0.55);
-  color: #fff;
+  background: rgb(214 0 60 / 0.35);
+  color: var(--foreground);
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #fff;
-  -webkit-box-shadow: 0 0 0 1000px #100a0c inset;
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
   transition: background-color 9999s ease-out 0s;
 }
 
