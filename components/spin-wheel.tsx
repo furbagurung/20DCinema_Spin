@@ -36,11 +36,7 @@ function createPrizeCode() {
   return code
 }
 
-type SpinWheelProps = {
-  participantName: string
-}
-
-export function SpinWheel({ participantName }: SpinWheelProps) {
+export function SpinWheel() {
   const router = useRouter()
   const [rotation, setRotation] = useState(0)
   const [isSpinning, setIsSpinning] = useState(false)
@@ -147,7 +143,7 @@ export function SpinWheel({ participantName }: SpinWheelProps) {
             }}
             onAnimationComplete={finishSpin}
           >
-            {segmentAngles.map((angle, index) => (
+            {segmentAngles.map((angle) => (
               <div
                 key={`divider-${angle}`}
                 aria-hidden="true"
