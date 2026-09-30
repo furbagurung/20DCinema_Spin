@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { ArrowRight } from "lucide-react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -51,7 +52,10 @@ export function ParticipantForm() {
   return (
     <form onSubmit={handleSubmit} className="mt-9 space-y-5" noValidate>
       <div className="space-y-2">
-        <label htmlFor="name" className="block text-sm font-medium text-white/70">
+        <label
+          htmlFor="name"
+          className="block text-xs font-semibold uppercase tracking-[0.12em] text-white/45"
+        >
           Name
         </label>
         <Input
@@ -63,17 +67,22 @@ export function ParticipantForm() {
           aria-invalid={Boolean(errors.name)}
           onChange={(event) => {
             setName(event.target.value)
-            if (errors.name) setErrors((current) => ({ ...current, name: undefined }))
+            if (errors.name) {
+              setErrors((current) => ({ ...current, name: undefined }))
+            }
           }}
-          className="h-12 border-white/12 bg-white/[0.035] text-white placeholder:text-white/30 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/20"
+          className="h-12 rounded-xl border-white/10 bg-white/[0.035] px-4 text-white placeholder:text-white/25 hover:border-white/15 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
         />
         {errors.name ? (
-          <p className="text-xs text-[#FF3B66]">{errors.name}</p>
+          <p className="text-xs text-[#FF527D]">{errors.name}</p>
         ) : null}
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="phone" className="block text-sm font-medium text-white/70">
+        <label
+          htmlFor="phone"
+          className="block text-xs font-semibold uppercase tracking-[0.12em] text-white/45"
+        >
           Phone number
         </label>
         <Input
@@ -89,20 +98,23 @@ export function ParticipantForm() {
           onChange={(event) => {
             const value = event.target.value.replace(/\D/g, "").slice(0, 10)
             setPhone(value)
-            if (errors.phone) setErrors((current) => ({ ...current, phone: undefined }))
+            if (errors.phone) {
+              setErrors((current) => ({ ...current, phone: undefined }))
+            }
           }}
-          className="h-12 border-white/12 bg-white/[0.035] text-white placeholder:text-white/30 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/20"
+          className="h-12 rounded-xl border-white/10 bg-white/[0.035] px-4 text-white placeholder:text-white/25 hover:border-white/15 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
         />
         {errors.phone ? (
-          <p className="text-xs text-[#FF3B66]">{errors.phone}</p>
+          <p className="text-xs text-[#FF527D]">{errors.phone}</p>
         ) : null}
       </div>
 
       <Button
         type="submit"
-        className="mt-2 h-12 w-full rounded-lg bg-[#D6003C] text-sm font-semibold text-white hover:bg-[#bd0036] focus-visible:ring-[#D6003C]/30"
+        className="group mt-2 h-12 w-full rounded-xl bg-[#D6003C] text-sm font-semibold text-white shadow-[0_12px_36px_rgba(214,0,60,0.2)] hover:bg-[#BE0036] focus-visible:ring-[#D6003C]/30"
       >
         Start
+        <ArrowRight className="ml-1 size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
       </Button>
     </form>
   )
