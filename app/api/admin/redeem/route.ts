@@ -104,10 +104,18 @@ export async function POST(request: Request) {
     )
   }
 
+  const participant = Array.isArray(session.participant)
+    ? session.participant[0]
+    : session.participant
+  const prize = Array.isArray(session.prize) ? session.prize[0] : session.prize
+
   return Response.json({
     ok: true,
     message: "Prize redeemed successfully.",
     prize_code: session.prize_code,
     redeemed_at: updated.redeemed_at,
+    name: participant?.name ?? "",
+    phone: participant?.phone ?? "",
+    prize_label: prize?.label ?? "",
   })
 }
