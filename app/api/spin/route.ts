@@ -1,4 +1,6 @@
-import { createClient } from "@supabase/supabase-js"
+import { z } from "zod"
+
+import { createSupabaseAdmin } from "@/lib/supabase-admin"
 import { z } from "zod"
 
 const spinSchema = z.object({
@@ -15,9 +17,7 @@ function getStatus(code?: string) {
 
 export async function POST(request: Request) {
   const url = process.env.SUPABASE_URL
-  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY
-
-  if (!url || !publishableKey) {
+  if (!url || !process.env.SUPABASE_SECRET_KEY) {
     return Response.json(
       {
         ok: false,
@@ -65,13 +65,23 @@ export async function POST(request: Request) {
     )
   }
 
-  const supabase = createClient(url, publishableKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-      detectSessionInUrl: false,
-    },
-  })
+  let supabase
+
+  try {
+    supabase = createSupabaseAdmin()
+  } catch {
+    return Response.json(
+      {
+        ok: false,
+        code: "server_not_configured",
+        message: "Spin service is not configured yet.",
+      },
+      {
+        status: 500,
+        headers: { "Cache-Control": "no-store" },
+      }
+    )
+  }
 
   const { data, error } = await supabase.rpc("perform_spin", {
     p_name: parsed.data.name,
