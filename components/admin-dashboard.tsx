@@ -73,7 +73,7 @@ export function AdminDashboard(){
      <div className="mt-7 text-center"><ShieldCheck className="mx-auto size-6 text-white/55"/><h1 className="mt-3 font-heading text-xl font-semibold uppercase tracking-[.08em]">Spin Admin</h1><p className="mt-2 text-sm text-white/35">Secure campaign dashboard</p></div>
      <Input autoFocus type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Admin password" className="mt-7 h-12 border-white/10 bg-white/[.035] text-white placeholder:text-white/20"/>
      <p className="mt-2 min-h-4 text-xs text-[#FF6689]">{error}</p>
-     <Button disabled={loading} className="mt-2 h-12 w-full rounded-xl bg-[#D6003C] text-white hover:bg-[#BE0036]">{loading?<LoaderCircle className="animate-spin"/>:<ShieldCheck/>}Sign in</Button>
+     <Button type="submit" disabled={loading} className="mt-2 h-12 w-full rounded-xl bg-[#D6003C] text-white hover:bg-[#BE0036]">{loading?<LoaderCircle className="animate-spin"/>:<ShieldCheck/>}Sign in</Button>
     </form>
     :<LoaderCircle className="relative size-5 animate-spin text-white/45"/>}
   </main>
