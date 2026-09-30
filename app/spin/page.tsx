@@ -47,7 +47,7 @@ export default function SpinPage() {
             <Link
               href="/"
               aria-label="Go back"
-              className="inline-flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-white/55 transition hover:bg-white/[0.06] hover:text-white"
+              className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition hover:bg-muted hover:text-foreground"
             >
               <ArrowLeft className="size-4" />
             </Link>
