@@ -1,20 +1,33 @@
 "use client"
 
 import { AnimatePresence, motion } from "motion/react"
-import { RotateCcw, Sparkles } from "lucide-react"
+import { AlertCircle, LoaderCircle, RotateCcw, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 
 const prizes = [
-  { label: "FREE TICKET", shortTop: "FREE", shortBottom: "TICKET" },
-  { label: "50% OFF", shortTop: "50%", shortBottom: "OFF" },
-  { label: "Rs. 100 OFF", shortTop: "Rs.100", shortBottom: "OFF" },
-  { label: "Rs. 50 OFF", shortTop: "Rs.50", shortBottom: "OFF" },
-  { label: "20% OFF", shortTop: "20%", shortBottom: "OFF" },
-  { label: "SPIN AGAIN", shortTop: "SPIN", shortBottom: "AGAIN" },
+  { key: "free_ticket", label: "FREE TICKET", shortTop: "FREE", shortBottom: "TICKET" },
+  { key: "fifty_percent", label: "50% OFF", shortTop: "50%", shortBottom: "OFF" },
+  { key: "rs_100_off", label: "Rs. 100 OFF", shortTop: "Rs.100", shortBottom: "OFF" },
+  { key: "rs_50_off", label: "Rs. 50 OFF", shortTop: "Rs.50", shortBottom: "OFF" },
+  { key: "twenty_percent", label: "20% OFF", shortTop: "20%", shortBottom: "OFF" },
+  { key: "spin_again", label: "SPIN AGAIN", shortTop: "SPIN", shortBottom: "AGAIN" },
 ] as const
+
+type PrizeKey = (typeof prizes)[number]["key"]
+
+type SpinResponse = {
+  ok: boolean
+  code?: string
+  message?: string
+  spin_again?: boolean
+  prize_key?: PrizeKey
+  label?: string
+  prize_code?: string
+  attempt?: number
+}
 
 const confetti = Array.from({ length: 28 }, (_, index) => ({
   id: index,
@@ -25,24 +38,19 @@ const confetti = Array.from({ length: 28 }, (_, index) => ({
   size: 5 + (index % 4) * 2,
 }))
 
-function createPrizeCode() {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-  let code = "20D-"
-
-  for (let index = 0; index < 6; index += 1) {
-    code += alphabet[Math.floor(Math.random() * alphabet.length)]
-  }
-
-  return code
-}
-
 export function SpinWheel() {
   const router = useRouter()
   const [rotation, setRotation] = useState(0)
+  const [isRequesting, setIsRequesting] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false)
   const [pendingIndex, setPendingIndex] = useState<number | null>(null)
+  const [pendingPrizeCode, setPendingPrizeCode] = useState("")
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [prizeCode, setPrizeCode] = useState("")
+  const [errorState, setErrorState] = useState<{
+    message: string
+    terminal: boolean
+  } | null>(null)
 
   const selectedPrize =
     selectedIndex === null ? null : prizes[selectedIndex]
@@ -52,25 +60,90 @@ export function SpinWheel() {
     []
   )
 
-  function spin() {
-    if (isSpinning) return
+  async function spin() {
+    if (isRequesting || isSpinning || selectedIndex !== null) return
 
-    // Front-end demo selection for now. Campaign probability rules will move
-    // to the backend when the database layer is connected.
-    const nextIndex = Math.floor(Math.random() * prizes.length)
-    const currentModulo = ((rotation % 360) + 360) % 360
-    const targetModulo = (360 - nextIndex * 60) % 360
-    const alignmentDelta = (targetModulo - currentModulo + 360) % 360
-    const nextRotation = rotation + 360 * 6 + alignmentDelta
+    const saved = sessionStorage.getItem("20d-spin-participant")
 
-    setSelectedIndex(null)
-    setPrizeCode("")
-    setPendingIndex(nextIndex)
-    setIsSpinning(true)
-    setRotation(nextRotation)
+    if (!saved) {
+      router.replace("/")
+      return
+    }
 
-    if ("vibrate" in navigator) {
-      navigator.vibrate?.(35)
+    let participant: { name?: string; phone?: string }
+
+    try {
+      participant = JSON.parse(saved)
+    } catch {
+      router.replace("/")
+      return
+    }
+
+    if (!participant.name || !participant.phone) {
+      router.replace("/")
+      return
+    }
+
+    setIsRequesting(true)
+    setErrorState(null)
+
+    try {
+      const response = await fetch("/api/spin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+        body: JSON.stringify({
+          name: participant.name,
+          phone: participant.phone,
+        }),
+      })
+
+      const result = (await response.json()) as SpinResponse
+
+      if (!response.ok || !result.ok || !result.prize_key) {
+        setErrorState({
+          message: result.message ?? "We couldn't start your spin. Please try again.",
+          terminal: result.code === "already_played",
+        })
+        return
+      }
+
+      const nextIndex = prizes.findIndex(
+        (prize) => prize.key === result.prize_key
+      )
+
+      if (nextIndex < 0) {
+        setErrorState({
+          message: "We couldn't read the prize result. Please ask our staff.",
+          terminal: false,
+        })
+        return
+      }
+
+      const currentModulo = ((rotation % 360) + 360) % 360
+      const targetModulo = (360 - nextIndex * 60) % 360
+      const alignmentDelta = (targetModulo - currentModulo + 360) % 360
+      const nextRotation = rotation + 360 * 6 + alignmentDelta
+
+      setSelectedIndex(null)
+      setPrizeCode("")
+      setPendingPrizeCode(result.prize_code ?? "")
+      setPendingIndex(nextIndex)
+      setIsSpinning(true)
+      setRotation(nextRotation)
+
+      if ("vibrate" in navigator) {
+        navigator.vibrate?.(35)
+      }
+    } catch {
+      setErrorState({
+        message: "Connection problem. Please check the internet and try again.",
+        terminal: false,
+      })
+    } finally {
+      setIsRequesting(false)
     }
   }
 
@@ -80,7 +153,8 @@ export function SpinWheel() {
     setIsSpinning(false)
     setSelectedIndex(pendingIndex)
     setPendingIndex(null)
-    setPrizeCode(createPrizeCode())
+    setPrizeCode(pendingPrizeCode)
+    setPendingPrizeCode("")
 
     if ("vibrate" in navigator) {
       navigator.vibrate?.([70, 45, 90])
@@ -154,7 +228,7 @@ export function SpinWheel() {
 
             {segmentAngles.map((angle, index) => (
               <div
-                key={prizes[index].label}
+                key={prizes[index].key}
                 className="absolute left-1/2 top-1/2 z-10 flex w-[74px] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center text-white sm:w-[86px]"
                 style={{
                   transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(clamp(-142px, -31vw, -108px)) rotate(${-angle}deg)`,
@@ -187,19 +261,24 @@ export function SpinWheel() {
         <Button
           type="button"
           onClick={spin}
-          disabled={isSpinning || selectedIndex !== null}
+          disabled={isRequesting || isSpinning || selectedIndex !== null}
           className="relative h-13 w-full overflow-hidden rounded-xl bg-[#D6003C] text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_36px_rgba(214,0,60,0.22)] hover:bg-[#BE0036] focus-visible:ring-[#D6003C]/30"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
-              key={isSpinning ? "spinning" : "spin"}
+              key={isRequesting ? "preparing" : isSpinning ? "spinning" : "spin"}
               className="inline-flex items-center gap-2"
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: 0.16 }}
             >
-              {isSpinning ? (
+              {isRequesting ? (
+                <>
+                  <LoaderCircle className="size-4 animate-spin" />
+                  Preparing
+                </>
+              ) : isSpinning ? (
                 <>
                   <RotateCcw className="size-4 animate-spin" />
                   Spinning
@@ -215,7 +294,7 @@ export function SpinWheel() {
         </Button>
 
         <p className="mt-3 text-center text-[11px] tracking-wide text-white/25">
-          One spin per participant · Terms apply
+          One spin per phone number · Terms apply
         </p>
       </div>
 
@@ -335,6 +414,46 @@ export function SpinWheel() {
                   </p>
                 ) : null}
               </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+
+        {errorState ? (
+          <motion.div
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-black/75 p-4 backdrop-blur-sm sm:items-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              role="alertdialog"
+              aria-modal="true"
+              className="w-full max-w-sm rounded-3xl border border-white/10 bg-[#100A0C] p-6 text-center shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
+              initial={{ opacity: 0, y: 36, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 24, scale: 0.97 }}
+            >
+              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
+                <AlertCircle className="size-6 text-white/70" />
+              </div>
+              <h2 className="mt-5 font-heading text-xl font-semibold uppercase tracking-[0.06em]">
+                {errorState.terminal ? "Already Played" : "Try Again"}
+              </h2>
+              <p className="mx-auto mt-3 max-w-[280px] text-sm leading-6 text-white/45">
+                {errorState.message}
+              </p>
+
+              <Button
+                type="button"
+                onClick={
+                  errorState.terminal
+                    ? finishParticipant
+                    : () => setErrorState(null)
+                }
+                className="mt-6 h-12 w-full rounded-xl bg-[#D6003C] text-white hover:bg-[#BE0036]"
+              >
+                {errorState.terminal ? "Done" : "Try Again"}
+              </Button>
             </motion.div>
           </motion.div>
         ) : null}
