@@ -71,10 +71,10 @@ export function ParticipantForm() {
               setErrors((current) => ({ ...current, name: undefined }))
             }
           }}
-          className="h-12 rounded-xl border-white/10 bg-white/[0.035] px-4 text-white placeholder:text-white/25 hover:border-white/15 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
+          className="h-12 rounded-xl border-input bg-surface px-4 text-foreground placeholder:text-muted-foreground hover:border-input focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
         />
         {errors.name ? (
-          <p className="text-xs text-[#FF527D]">{errors.name}</p>
+          <p className="text-xs text-destructive">{errors.name}</p>
         ) : null}
       </div>
 
