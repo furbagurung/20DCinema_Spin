@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Manrope, Orbitron } from "next/font/google"
 
 import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -24,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${orbitron.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${manrope.variable} ${orbitron.variable}`} suppressHydrationWarning>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }
