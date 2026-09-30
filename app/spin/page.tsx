@@ -87,7 +87,7 @@ export default function SpinPage() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
         >
-          <SpinWheel participantName={name} />
+          <SpinWheel />
         </motion.div>
       </div>
     </main>
