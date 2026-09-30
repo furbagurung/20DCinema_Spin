@@ -1,6 +1,7 @@
 "use client"
 
-import Image from "next/image"\nimport { useState } from "react"
+import Image from "next/image"
+import { useState } from "react"
 import {
   BarChart3,
   CheckCircle2,
@@ -8,7 +9,6 @@ import {
   LogOut,
   Settings2,
   Sparkles,
-  TicketCheck,
   Users,
 } from "lucide-react"
 
@@ -40,9 +40,14 @@ const navigation = [
 
 export function AdminSidebar({ onLogout }: AdminSidebarProps) {
   const { setMobileOpen } = useSidebar()
+  const [active, setActive] = useState("overview")
 
   function goTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
+    setActive(id)
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
     setMobileOpen(false)
   }
 
@@ -60,9 +65,12 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
               className="h-auto w-24"
             />
           </div>
+
           <div className="min-w-0 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <p className="truncate text-xs font-semibold">Spin & Win</p>
-            <p className="truncate text-[10px] text-sidebar-foreground/45">Admin workspace</p>
+            <p className="truncate text-[10px] text-sidebar-foreground/45">
+              Admin workspace
+            </p>
           </div>
         </div>
       </SidebarHeader>
@@ -96,6 +104,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
+                  active={active === "prizes"}
                   onClick={() => goTo("prizes")}
                   title="Campaign settings"
                 >
@@ -126,10 +135,14 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
           <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
             <Sparkles className="size-4" />
           </div>
+
           <div className="min-w-0 flex-1 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <p className="truncate text-xs font-semibold">20D Cinema</p>
-            <p className="truncate text-[10px] text-sidebar-foreground/45">KL Tower · Kathmandu</p>
+            <p className="truncate text-[10px] text-sidebar-foreground/45">
+              KL Tower · Kathmandu
+            </p>
           </div>
+
           <div className="flex items-center gap-0.5 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <ThemeToggle />
             <button
@@ -143,9 +156,12 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             </button>
           </div>
         </div>
+
         <div className="mt-3 flex items-center gap-2 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
           <CheckCircle2 className="size-3.5 text-emerald-500" />
-          <span className="text-[10px] text-sidebar-foreground/45">System operational</span>
+          <span className="text-[10px] text-sidebar-foreground/45">
+            System operational
+          </span>
         </div>
       </SidebarFooter>
     </Sidebar>
