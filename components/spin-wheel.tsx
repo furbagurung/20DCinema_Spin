@@ -320,7 +320,7 @@ export function SpinWheel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {selectedIndex !== 5
+            {selectedPrize?.key !== "spin_again"
               ? confetti.map((piece) => (
                   <motion.span
                     key={piece.id}
@@ -434,13 +434,13 @@ export function SpinWheel() {
 
                 <Button
                   type="button"
-                  onClick={selectedIndex === 5 ? spinAgain : finishParticipant}
+                  onClick={selectedPrize?.key === "spin_again" ? spinAgain : finishParticipant}
                   className="mt-6 h-12 w-full rounded-xl bg-[#D6003C] text-sm font-semibold text-white hover:bg-[#BE0036]"
                 >
-                  {selectedIndex === 5 ? "Spin Again" : "Done"}
+                  {selectedPrize?.key === "spin_again" ? "Spin Again" : "Done"}
                 </Button>
 
-                {selectedIndex !== 5 ? (
+                {selectedPrize?.key !== "spin_again" ? (
                   <p className="mt-3 text-[11px] leading-5 text-white/25">
                     Keep this screen visible until staff confirms your prize.
                     You can also take a screenshot for reference.
