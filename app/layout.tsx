@@ -1,23 +1,31 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import type { Metadata } from "next"
+import { Manrope, Orbitron } from "next/font/google"
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import "./globals.css"
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+})
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
+})
 
 export const metadata: Metadata = {
   title: "20D Cinema | Spin & Win",
   description: "20D Cinema Spin & Win campaign",
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={`${manrope.variable} ${orbitron.variable}`}>
       <body>{children}</body>
     </html>
-  );
+  )
 }
