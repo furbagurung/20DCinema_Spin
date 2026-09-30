@@ -24,11 +24,11 @@ export function AdminDashboard(){
   setLoading(true);setError("")
   try{
    const r=await fetch("/api/admin/dashboard?search="+encodeURIComponent(q),{cache:"no-store"})
-   if(r.status===401){setLogin(true);setData(null);return}
+   if(r.status===401){setLogin(true);setData(null);setReady(true);return}
    const d=await r.json()
-   if(!r.ok||!d.ok){setError(d.message||"Could not load dashboard.");return}
+   if(!r.ok||!d.ok){setError(d.message||"Could not load dashboard.");setReady(true);return}
    setData(d);setLogin(false);setReady(true)
-  }catch{setError("Connection problem.")}
+  }catch{setError("Connection problem.");setReady(true)}
   finally{setLoading(false)}
  },[])
 
