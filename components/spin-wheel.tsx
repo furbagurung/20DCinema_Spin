@@ -307,7 +307,7 @@ export function SpinWheel() {
           </AnimatePresence>
         </Button>
 
-        <p className="mt-3 text-center text-[11px] tracking-wide text-white/25">
+        <p className="mt-3 text-center text-[11px] tracking-wide text-muted-foreground">
           One spin per phone number · Terms apply
         </p>
       </div>
@@ -362,7 +362,7 @@ export function SpinWheel() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="prize-title"
-              className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-white/10 bg-[#100A0C] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
+              className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
               initial={{ opacity: 0, y: 42, scale: 0.94 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 30, scale: 0.96 }}
@@ -394,27 +394,27 @@ export function SpinWheel() {
                 </h2>
 
                 {selectedIndex === 5 ? (
-                  <p className="mx-auto mt-3 max-w-[260px] text-sm leading-6 text-white/45">
+                  <p className="mx-auto mt-3 max-w-[260px] text-sm leading-6 text-muted-foreground">
                     You earned another chance. Give the wheel one more spin.
                   </p>
                 ) : (
                   <>
-                    <p className="mt-3 text-sm text-white/45">
+                    <p className="mt-3 text-sm text-muted-foreground">
                       Show this result at the 20D Cinema counter.
                     </p>
 
                     <div className="mt-6 rounded-2xl border border-dashed border-white/15 bg-white/[0.035] px-4 py-4">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/30">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                         Prize code
                       </p>
-                      <p className="mt-1.5 font-heading text-lg font-semibold tracking-[0.12em] text-white">
+                      <p className="mt-1.5 font-heading text-lg font-semibold tracking-[0.12em] text-foreground">
                         {prizeCode}
                       </p>
                       <Button
                         type="button"
                         variant="ghost"
                         onClick={() => void copyPrizeCode()}
-                        className="mt-2 h-8 w-full rounded-lg text-xs text-white/55 hover:bg-white/5 hover:text-white"
+                        className="mt-2 h-8 w-full rounded-lg text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
                       >
                         {copied ? (
                           <>
@@ -441,7 +441,7 @@ export function SpinWheel() {
                 </Button>
 
                 {selectedPrize?.key !== "spin_again" ? (
-                  <p className="mt-3 text-[11px] leading-5 text-white/25">
+                  <p className="mt-3 text-[11px] leading-5 text-muted-foreground">
                     Keep this screen visible until staff confirms your prize.
                     You can also take a screenshot for reference.
                   </p>
@@ -461,7 +461,7 @@ export function SpinWheel() {
             <motion.div
               role="alertdialog"
               aria-modal="true"
-              className="w-full max-w-sm rounded-3xl border border-white/10 bg-[#100A0C] p-6 text-center shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
+              className="w-full max-w-sm rounded-3xl border border-border bg-card p-6 text-center text-card-foreground shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
               initial={{ opacity: 0, y: 36, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.97 }}
@@ -472,7 +472,7 @@ export function SpinWheel() {
               <h2 className="mt-5 font-heading text-xl font-semibold uppercase tracking-[0.06em]">
                 {errorState.terminal ? "Already Played" : "Try Again"}
               </h2>
-              <p className="mx-auto mt-3 max-w-[280px] text-sm leading-6 text-white/45">
+              <p className="mx-auto mt-3 max-w-[280px] text-sm leading-6 text-muted-foreground">
                 {errorState.message}
               </p>
 
