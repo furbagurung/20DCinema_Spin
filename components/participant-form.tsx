@@ -13,7 +13,7 @@ const participantSchema = z.object({
   phone: z
     .string()
     .trim()
-    .regex(/^9\d{9}$/, "Enter a valid 10-digit phone number."),
+    .regex(/^9[78]\d{8}$/, "Enter a valid Nepal mobile number."),
 })
 
 type FormErrors = {
