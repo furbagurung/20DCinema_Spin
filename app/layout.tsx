@@ -27,6 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.variable} ${orbitron.variable}`} suppressHydrationWarning>
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('20d-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}",
+          }}
+        />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
