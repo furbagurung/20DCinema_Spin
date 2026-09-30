@@ -66,7 +66,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             />
           </div>
 
-          <div className="min-w-0 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
+          <div className="min-w-0 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <p className="truncate text-xs font-semibold">Spin & Win</p>
             <p className="truncate text-[10px] text-sidebar-foreground/45">
               Admin workspace
@@ -116,7 +116,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <div className="mx-2 mt-3 rounded-2xl border border-primary/15 bg-primary/5 p-3 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
+        <div className="mx-2 mt-3 rounded-2xl border border-primary/15 bg-primary/5 p-3 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
           <div className="flex items-center gap-2">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-50" />
@@ -136,14 +136,14 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
             <Sparkles className="size-4" />
           </div>
 
-          <div className="min-w-0 flex-1 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
+          <div className="min-w-0 flex-1 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <p className="truncate text-xs font-semibold">20D Cinema</p>
             <p className="truncate text-[10px] text-sidebar-foreground/45">
               KL Tower · Kathmandu
             </p>
           </div>
 
-          <div className="flex items-center gap-0.5 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
+          <div className="flex items-center gap-0.5 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <ThemeToggle />
             <button
               type="button"
@@ -157,7 +157,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center gap-2 group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
+        <div className="mt-3 flex items-center gap-2 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
           <CheckCircle2 className="size-3.5 text-emerald-500" />
           <span className="text-[10px] text-sidebar-foreground/45">
             System operational
