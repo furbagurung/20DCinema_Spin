@@ -33,6 +33,14 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Input } from "@/components/ui/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 type Metrics = {
   participants: number
@@ -581,70 +589,65 @@ export function AdminDashboard() {
                 </CardHeader>
 
                 <CardContent className="p-0">
-                  <div className="overflow-x-auto">
-                    <table className="w-full min-w-[760px] text-sm">
-                      <thead>
-                        <tr className="border-y border-border bg-muted/40 text-left text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                          <th className="px-5 py-3 font-semibold">Participant</th>
-                          <th className="px-5 py-3 font-semibold">Prize</th>
-                          <th className="px-5 py-3 font-semibold">Code</th>
-                          <th className="px-5 py-3 font-semibold">Status</th>
-                          <th className="px-5 py-3 text-right font-semibold">Time</th>
-                          <th className="px-5 py-3 text-right font-semibold">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data.entries.map((entry) => (
-                          <tr
-                            key={entry.session_id}
-                            className="border-b border-border last:border-0 hover:bg-muted/30"
-                          >
-                            <td className="px-5 py-4">
-                              <p className="font-semibold">{entry.name}</p>
-                              <p className="mt-0.5 text-xs text-muted-foreground">
-                                {entry.phone}
-                              </p>
-                            </td>
-                            <td className="px-5 py-4 text-xs">
-                              {entry.prize_label || "Waiting for re-spin"}
-                            </td>
-                            <td className="px-5 py-4">
-                              <span className="font-heading text-xs tracking-wide text-muted-foreground">
-                                {entry.prize_code || "—"}
-                              </span>
-                            </td>
-                            <td className="px-5 py-4">
-                              {entry.redeemed_at ? (
-                                <Badge variant="success">Redeemed</Badge>
-                              ) : entry.prize_code ? (
-                                <Badge variant="warning">Pending</Badge>
-                              ) : (
-                                <Badge variant="secondary">Re-spin</Badge>
-                              )}
-                            </td>
-                            <td className="px-5 py-4 text-right text-xs text-muted-foreground">
-                              {date(entry.completed_at || entry.created_at)}
-                            </td>
-                            <td className="px-5 py-4 text-right">
-                              {entry.redeemed_at ? (
-                                <CheckCircle2 className="ml-auto size-4 text-emerald-500" />
-                              ) : entry.prize_code ? (
-                                <Button
-                                  onClick={() => void redeem(entry.prize_code!)}
-                                  disabled={loading}
-                                  className="h-8 rounded-lg bg-[#D6003C] px-3 text-xs text-white hover:bg-[#BE0036]"
-                                >
-                                  Redeem
-                                </Button>
-                              ) : (
-                                <span className="text-xs text-muted-foreground">—</span>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <Table className="min-w-[760px]">
+                    <TableHeader>
+                      <TableRow className="bg-muted/40 hover:bg-muted/40">
+                        <TableHead className="px-5">Participant</TableHead>
+                        <TableHead className="px-5">Prize</TableHead>
+                        <TableHead className="px-5">Code</TableHead>
+                        <TableHead className="px-5">Status</TableHead>
+                        <TableHead className="px-5 text-right">Time</TableHead>
+                        <TableHead className="px-5 text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {data.entries.map((entry) => (
+                        <TableRow key={entry.session_id}>
+                          <TableCell className="px-5 py-4">
+                            <p className="font-semibold">{entry.name}</p>
+                            <p className="mt-0.5 text-xs text-muted-foreground">
+                              {entry.phone}
+                            </p>
+                          </TableCell>
+                          <TableCell className="px-5 py-4 text-xs">
+                            {entry.prize_label || "Waiting for re-spin"}
+                          </TableCell>
+                          <TableCell className="px-5 py-4">
+                            <span className="font-heading text-xs tracking-wide text-muted-foreground">
+                              {entry.prize_code || "—"}
+                            </span>
+                          </TableCell>
+                          <TableCell className="px-5 py-4">
+                            {entry.redeemed_at ? (
+                              <Badge variant="success">Redeemed</Badge>
+                            ) : entry.prize_code ? (
+                              <Badge variant="warning">Pending</Badge>
+                            ) : (
+                              <Badge variant="secondary">Re-spin</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="px-5 py-4 text-right text-xs text-muted-foreground">
+                            {date(entry.completed_at || entry.created_at)}
+                          </TableCell>
+                          <TableCell className="px-5 py-4 text-right">
+                            {entry.redeemed_at ? (
+                              <CheckCircle2 className="ml-auto size-4 text-emerald-500" />
+                            ) : entry.prize_code ? (
+                              <Button
+                                onClick={() => void redeem(entry.prize_code!)}
+                                disabled={loading}
+                                className="h-8 rounded-lg bg-[#D6003C] px-3 text-xs text-white hover:bg-[#BE0036]"
+                              >
+                                Redeem
+                              </Button>
+                            ) : (
+                              <span className="text-xs text-muted-foreground">—</span>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
 
                   {!data.entries.length ? (
                     <div className="p-12 text-center text-sm text-muted-foreground">
