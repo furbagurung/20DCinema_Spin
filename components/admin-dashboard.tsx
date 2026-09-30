@@ -57,7 +57,13 @@ export function AdminDashboard(){
    const r=await fetch("/api/admin/redeem",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:prizeCode})})
    const d=await r.json()
    if(!r.ok||!d.ok){setError(d.message||"Could not redeem.");return}
-   setCode("");setNotice("Prize redeemed successfully.");await load(search)
+   setCode("")
+   setNotice(
+    d.name && d.prize_label
+      ? `Redeemed: ${d.name} · ${d.prize_label}`
+      : "Prize redeemed successfully."
+   )
+   await load(search)
   }catch{setError("Connection problem.")}
   finally{setLoading(false)}
  }
