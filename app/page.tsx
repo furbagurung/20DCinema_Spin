@@ -3,14 +3,15 @@
 import Image from "next/image"
 import { motion } from "motion/react"
 
+import { ThemeToggle } from "@/components/theme-toggle"
 import { ParticipantForm } from "@/components/participant-form"
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[#09060A] px-5 py-10 text-[#F8F7F4]">
+    <main className="relative flex min-h-svh items-center justify-center overflow-hidden bg-background px-5 py-10 text-foreground"><div className="absolute right-5 top-5"><ThemeToggle/></div>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[42%] h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#5A0B1B]/20 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-[42%] h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl"
         animate={{ scale: [0.92, 1.06, 0.92], opacity: [0.16, 0.28, 0.16] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -22,14 +23,14 @@ export default function Home() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Image
+          <div className="rounded-2xl bg-[#100A0C] px-5 py-2"><Image
             src="/logo/White Reversed 20D Cinema Secondary Logo.png"
             alt="20D Cinema"
             width={220}
             height={90}
             priority
             className="h-auto w-36 sm:w-40"
-          />
+          /></div>
         </motion.div>
 
         <motion.div
@@ -38,13 +39,13 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.08 }}
         >
-          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#FF3B70]/70">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-primary">
             Play · Spin · Win
           </p>
           <h1 className="mt-3 font-heading text-3xl font-semibold uppercase tracking-[0.08em] sm:text-4xl">
             Spin & Win
           </h1>
-          <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-white/45">
+          <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-muted-foreground">
             Enter your details and try your luck.
           </p>
         </motion.div>
@@ -58,7 +59,7 @@ export default function Home() {
         </motion.div>
 
         <motion.p
-          className="mt-7 text-center text-[11px] text-white/20"
+          className="mt-7 text-center text-[11px] text-muted-foreground"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.28 }}
