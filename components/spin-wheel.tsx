@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "motion/react"
-import { AlertCircle, LoaderCircle, RotateCcw, Sparkles } from "lucide-react"
+import { AlertCircle, Check, Clipboard, LoaderCircle, RotateCcw, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 
@@ -47,6 +47,7 @@ export function SpinWheel() {
   const [pendingPrizeCode, setPendingPrizeCode] = useState("")
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [prizeCode, setPrizeCode] = useState("")
+  const [copied, setCopied] = useState(false)
   const [errorState, setErrorState] = useState<{
     message: string
     terminal: boolean
@@ -161,9 +162,22 @@ export function SpinWheel() {
     }
   }
 
+  async function copyPrizeCode() {
+    if (!prizeCode) return
+
+    try {
+      await navigator.clipboard.writeText(prizeCode)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {
+      setCopied(false)
+    }
+  }
+
   function spinAgain() {
     setSelectedIndex(null)
     setPrizeCode("")
+    setCopied(false)
   }
 
   function finishParticipant() {
@@ -396,6 +410,24 @@ export function SpinWheel() {
                       <p className="mt-1.5 font-heading text-lg font-semibold tracking-[0.12em] text-white">
                         {prizeCode}
                       </p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => void copyPrizeCode()}
+                        className="mt-2 h-8 w-full rounded-lg text-xs text-white/55 hover:bg-white/5 hover:text-white"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="size-3.5" />
+                            Copied
+                          </>
+                        ) : (
+                          <>
+                            <Clipboard className="size-3.5" />
+                            Copy code
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </>
                 )}
@@ -409,8 +441,9 @@ export function SpinWheel() {
                 </Button>
 
                 {selectedIndex !== 5 ? (
-                  <p className="mt-3 text-[11px] text-white/25">
+                  <p className="mt-3 text-[11px] leading-5 text-white/25">
                     Keep this screen visible until staff confirms your prize.
+                    You can also take a screenshot for reference.
                   </p>
                 ) : null}
               </div>
