@@ -6,6 +6,7 @@ import { motion } from "motion/react"
 import { ArrowLeft } from "lucide-react"
 import { useEffect, useState } from "react"
 
+import { ThemeToggle } from "@/components/theme-toggle"
 import { SpinWheel } from "@/components/spin-wheel"
 
 export default function SpinPage() {
@@ -28,16 +29,16 @@ export default function SpinPage() {
   }, [])
 
   return (
-    <main className="relative min-h-svh overflow-hidden bg-[#09060A] px-5 py-7 text-[#F8F7F4] sm:py-10">
+    <main className="relative min-h-svh overflow-hidden bg-background px-5 py-7 text-foreground sm:py-10">
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[44%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#590B1D]/16 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-[44%] h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl"
         animate={{ scale: [0.94, 1.04, 0.94], opacity: [0.16, 0.28, 0.16] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-3.5rem)] w-full max-w-lg flex-col sm:min-h-[calc(100svh-5rem)]">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between"><div className="absolute right-0 top-0"><ThemeToggle/></div>
           <motion.div
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
@@ -57,14 +58,14 @@ export default function SpinPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <Image
+            <div className="rounded-xl bg-[#100A0C] px-3 py-1.5"><Image
               src="/logo/White Reversed 20D Cinema Secondary Logo.png"
               alt="20D Cinema"
               width={220}
               height={90}
               priority
               className="h-auto w-28 sm:w-32"
-            />
+            /></div>
           </motion.div>
 
           <div className="size-10" aria-hidden="true" />
@@ -76,7 +77,7 @@ export default function SpinPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.08 }}
         >
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/35">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
             {name ? `Good luck, ${name}` : "Good luck"}
           </p>
           <h1 className="mt-2 font-heading text-2xl font-semibold uppercase tracking-[0.08em] sm:text-3xl">
