@@ -67,7 +67,7 @@ export function SidebarProvider({
       <div
         data-sidebar-wrapper
         data-sidebar-open={open}
-        className={cn("flex min-h-svh w-full bg-background", className)}
+        className={cn("group/sidebar-wrapper flex min-h-svh w-full bg-background", className)}
       >
         {children}
       </div>
@@ -79,7 +79,7 @@ export function Sidebar({
   children,
   className,
 }: React.ComponentProps<"aside">) {
-  const { open, mobileOpen, setMobileOpen } = useSidebar()
+  const { open, mobileOpen, setMobileOpen, toggleSidebar } = useSidebar()
 
   return (
     <>
@@ -106,7 +106,7 @@ export function Sidebar({
         <button
           type="button"
           className="absolute -right-3 top-6 hidden size-6 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm md:flex"
-          onClick={() => useSidebar().toggleSidebar()}
+          onClick={toggleSidebar}
           aria-label="Toggle sidebar"
         >
           <PanelLeft className="size-3.5" />
@@ -273,7 +273,7 @@ export function SidebarTrigger({
   className,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar, setMobileOpen } = useSidebar()
+  const { setMobileOpen } = useSidebar()
 
   return (
     <Button
