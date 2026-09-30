@@ -14,7 +14,10 @@ export default function SpinPage() {
   useEffect(() => {
     const saved = sessionStorage.getItem("20d-spin-participant")
 
-    if (!saved) return
+    if (!saved) {
+      window.location.replace("/")
+      return
+    }
 
     try {
       const participant = JSON.parse(saved) as { name?: string }
