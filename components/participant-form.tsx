@@ -50,11 +50,11 @@ export function ParticipantForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-9 space-y-5" noValidate>
+    <form onSubmit={handleSubmit} className="mt-3 space-y-3" noValidate>
       <div className="space-y-2">
         <label
           htmlFor="name"
-          className="block text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground"
+          className="block text-[9px] font-bold uppercase tracking-[0.14em] text-[#FFE9A2]/80"
         >
           Name
         </label>
@@ -62,7 +62,7 @@ export function ParticipantForm() {
           id="name"
           name="name"
           autoComplete="name"
-          placeholder="Your name"
+          placeholder="Your name / तपाईंको नाम"
           value={name}
           aria-invalid={Boolean(errors.name)}
           onChange={(event) => {
@@ -71,7 +71,7 @@ export function ParticipantForm() {
               setErrors((current) => ({ ...current, name: undefined }))
             }
           }}
-          className="h-12 rounded-xl border-[#E8B94F]/25 bg-background/60 px-4 text-foreground placeholder:text-muted-foreground shadow-sm backdrop-blur-sm hover:border-[#E8B94F]/45 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
+          className="h-10 rounded-xl border-[#F1D17A]/45 bg-[#FFF4D8] px-3.5 text-[#4A101C] placeholder:text-[#8B6E63] shadow-inner hover:border-[#FFE08A] focus-visible:border-[#FFE08A] focus-visible:ring-[#FFE08A]/25"
         />
         {errors.name ? (
           <p className="text-xs text-destructive">{errors.name}</p>
@@ -102,7 +102,7 @@ export function ParticipantForm() {
               setErrors((current) => ({ ...current, phone: undefined }))
             }
           }}
-          className="h-12 rounded-xl border-input bg-surface px-4 text-foreground placeholder:text-muted-foreground hover:border-input focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
+          className="h-10 rounded-xl border-[#F1D17A]/45 bg-[#FFF4D8] px-3.5 text-[#4A101C] placeholder:text-[#8B6E63] shadow-inner hover:border-[#FFE08A] focus-visible:border-[#FFE08A] focus-visible:ring-[#FFE08A]/25"
         />
         {errors.phone ? (
           <p className="text-xs text-[#FF527D]">{errors.phone}</p>
@@ -111,7 +111,7 @@ export function ParticipantForm() {
 
       <Button
         type="submit"
-        className="group mt-2 h-12 w-full rounded-xl bg-gradient-to-r from-[#B80032] via-[#D6003C] to-[#E34B2F] text-sm font-semibold text-white shadow-[0_14px_36px_rgba(214,0,60,0.22)] hover:brightness-105 focus-visible:ring-[#D6003C]/30"
+        className="group mt-2 h-11 w-full rounded-xl border border-[#FFE88A]/60 bg-gradient-to-b from-[#FFD95C] via-[#F6B51E] to-[#E68A12] text-sm font-extrabold tracking-wide text-[#6B1021] shadow-[0_8px_18px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.65)] hover:brightness-105 focus-visible:ring-[#FFE08A]/40"
       >
         Start
         <ArrowRight className="ml-1 size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
