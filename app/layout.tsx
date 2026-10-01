@@ -15,8 +15,8 @@ const orbitron = Orbitron({
 })
 
 export const metadata: Metadata = {
-  title: "20D Cinema | Spin & Win",
-  description: "20D Cinema Spin & Win campaign",
+  title: "20D Cinema | Dashain Spin & Win",
+  description: "Dashain Spin & Win by 20D Cinema — spin the wheel and discover your surprise.",
 }
 
 export default function RootLayout({
