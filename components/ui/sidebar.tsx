@@ -95,7 +95,7 @@ export function Sidebar({
         data-sidebar
         data-sidebar-open={open}
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm transition-transform duration-200 ease-out md:z-30 md:translate-x-0 md:transition-[width]",
+          "fixed inset-y-0 left-0 z-50 flex w-[min(18rem,calc(100vw-1rem))] flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm transition-transform duration-200 ease-out md:z-30 md:translate-x-0 md:transition-[width]",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
           "md:relative md:flex md:shrink-0",
           open ? "md:w-64" : "md:w-[4.25rem]",
