@@ -274,18 +274,9 @@ export function SpinGame({
           onClick={() => void handleSpin()}
           whileTap={{ scale: 0.96 }}
           whileHover={{ scale: spinning ? 1 : 1.02 }}
-          className="relative mx-auto mt-[2%] block w-[68%] overflow-hidden rounded-full disabled:opacity-75"
+          className="relative mx-auto mt-[2%] block aspect-[500/127] w-[68%] rounded-full bg-transparent text-[clamp(13px,4vw,22px)] font-black uppercase text-[#76100d] disabled:opacity-75"
         >
-          <Image
-            src="/game-assets/spin-button.webp"
-            alt=""
-            width={500}
-            height={127}
-            className="block w-full"
-          />
-          <span className="absolute inset-0 flex items-center justify-center text-[clamp(13px,4vw,22px)] font-black uppercase text-[#76100d]">
-            {spinning ? "Spinning..." : "Spin & Win"}
-          </span>
+          {spinning ? "Spinning..." : "Spin & Win"}
         </motion.button>
 
         <p className="mt-[2%] text-center text-[7px] text-[#ffe9b0]/70">
