@@ -213,15 +213,15 @@ export function SpinWheel() {
               : { duration: 0.2 }
           }
         >
-          <div className="h-0 w-0 border-x-[15px] border-t-[26px] border-x-transparent border-t-[#F8F7F4] drop-shadow-[0_5px_10px_rgba(0,0,0,0.55)]" />
+          <div className="h-0 w-0 border-x-[15px] border-t-[26px] border-x-transparent border-t-[#E8B94F] drop-shadow-[0_5px_10px_rgba(0,0,0,0.55)]" />
         </motion.div>
 
-        <div className="relative aspect-square rounded-full border border-white/15 bg-[#120A0D] p-[10px] shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_0_6px_rgba(255,255,255,0.025)]">
+        <div className="relative aspect-square rounded-full border border-[#E8B94F]/35 bg-[#4A0715] p-[10px] shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_0_6px_rgba(255,255,255,0.025)]">
           <motion.div
-            className="relative h-full w-full overflow-hidden rounded-full border border-white/15"
+            className="relative h-full w-full overflow-hidden rounded-full border border-[#E8B94F]/30"
             style={{
               background:
-                "conic-gradient(from -30deg, #E00043 0deg 60deg, #241117 60deg 120deg, #A30031 120deg 180deg, #1A0D11 180deg 240deg, #760024 240deg 300deg, #2B1119 300deg 360deg)",
+                "conic-gradient(from -30deg, #D6003C 0deg 60deg, #49652A 60deg 120deg, #B4862D 120deg 180deg, #7A0B24 180deg 240deg, #668F35 240deg 300deg, #8F1734 300deg 360deg)",
               willChange: "transform",
             }}
             animate={{ rotate: rotation }}
@@ -235,7 +235,7 @@ export function SpinWheel() {
               <div
                 key={`divider-${angle}`}
                 aria-hidden="true"
-                className="absolute left-1/2 top-1/2 h-1/2 w-px origin-top bg-white/25"
+                className="absolute left-1/2 top-1/2 h-1/2 w-px origin-top bg-[#F3D47A]/45"
                 style={{ transform: `translateX(-50%) rotate(${angle + 30}deg)` }}
               />
             ))}
@@ -251,7 +251,7 @@ export function SpinWheel() {
                 <span className="font-heading text-[10px] font-semibold leading-tight tracking-[0.08em] drop-shadow-sm sm:text-xs">
                   {prizes[index].shortTop}
                 </span>
-                <span className="mt-0.5 text-[9px] font-semibold tracking-[0.14em] text-white/70 sm:text-[10px]">
+                <span className="mt-0.5 text-[9px] font-semibold tracking-[0.14em] text-foreground/70 sm:text-[10px]">
                   {prizes[index].shortBottom}
                 </span>
               </div>
@@ -263,7 +263,7 @@ export function SpinWheel() {
             />
           </motion.div>
 
-          <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex size-[72px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-[#09060A] shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:size-20">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 flex size-[72px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#E8B94F]/30 bg-[#4A0715] shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:size-20">
             <span className="font-heading text-[13px] font-semibold tracking-[0.12em] text-white">
               20D
             </span>
@@ -332,10 +332,10 @@ export function SpinWheel() {
                       height: piece.size * 1.8,
                       background:
                         piece.id % 3 === 0
-                          ? "#FFFFFF"
+                          ? "#F3D47A"
                           : piece.id % 3 === 1
                             ? "#D6003C"
-                            : "#FF7A9E",
+                            : "#668F35",
                     }}
                     initial={{
                       y: -20,
@@ -383,7 +383,7 @@ export function SpinWheel() {
                   <Sparkles className="size-6 text-[#FF3B70]" />
                 </motion.div>
 
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-white/35">
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.24em] text-[#B98A28] dark:text-[#F3D47A]/70">
                   {selectedIndex === 5 ? "Lucky you" : "Congratulations"}
                 </p>
                 <h2
@@ -466,8 +466,8 @@ export function SpinWheel() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.97 }}
             >
-              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
-                <AlertCircle className="size-6 text-white/70" />
+              <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-[#E8B94F]/20 bg-[#E8B94F]/5">
+                <AlertCircle className="size-6 text-foreground/70" />
               </div>
               <h2 className="mt-5 font-heading text-xl font-semibold uppercase tracking-[0.06em]">
                 {errorState.terminal ? "Already Played" : "Try Again"}
