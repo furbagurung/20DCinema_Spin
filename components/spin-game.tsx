@@ -188,37 +188,19 @@ export function SpinGame({
   return (
     <div className="relative mx-auto aspect-[500/874] w-full max-w-[500px] overflow-hidden bg-[#5d0718] shadow-[0_20px_80px_rgba(0,0,0,.45)]">
       <Image
-        src="/game-assets/background.webp"
-        alt=""
+        src="/game-assets/game-frame.webp"
+        alt="20D Cinema Dashain–Tihar Spin & Win game"
         fill
         priority
         sizes="(max-width: 500px) 100vw, 500px"
         className="object-cover"
       />
 
-      <Image
-        src="/game-assets/festival-banner.webp"
-        alt="दशैं–तिहार अफर गेम"
-        width={700}
-        height={236}
-        priority
-        className="absolute left-[6%] top-[2.2%] z-10 w-[88%] max-w-none"
-      />
-
-      <Image
-        src="/game-assets/20d-logo.webp"
-        alt="20D Cinema"
-        width={235}
-        height={71}
-        priority
-        className="absolute left-[38%] top-[8.2%] z-20 w-[24%]"
-      />
-
-      <div className="absolute left-1/2 top-[15.8%] z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#7d1229]/90 px-3 py-1 text-[8px] font-bold text-[#ffe7a1]">
+      <div className="absolute left-1/2 top-[15.8%] z-30 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#7d1229]/90 px-3 py-1 text-[8px] font-bold text-[#ffe7a1]">
         {name ? `Good luck, ${name}!` : "Good luck!"}
       </div>
 
-      <div className="absolute left-[14%] top-[25.5%] z-10 aspect-square w-[72%]">
+      <div className="absolute left-[21.5%] top-[25.5%] z-20 aspect-square w-[57%]">
         <motion.div
           className="absolute inset-0"
           animate={{ rotate: rotation }}
@@ -243,7 +225,7 @@ export function SpinGame({
           }}
         >
           <Image
-            src="/game-assets/wheel.webp"
+            src="/game-assets/wheel-inner.webp"
             alt=""
             fill
             sizes="360px"
@@ -279,30 +261,7 @@ export function SpinGame({
           })}
         </motion.div>
 
-        <Image
-          src="/game-assets/hub.webp"
-          alt=""
-          width={178}
-          height={178}
-          className="absolute left-[36.3%] top-[36.3%] z-20 w-[27.4%]"
-        />
-
-        <Image
-          src="/game-assets/pointer.webp"
-          alt=""
-          width={140}
-          height={154}
-          className="absolute left-[42.2%] top-[-8.5%] z-30 w-[15.6%] drop-shadow-[0_3px_3px_rgba(0,0,0,.35)]"
-        />
       </div>
-
-      <Image
-        src="/game-assets/pedestal.webp"
-        alt=""
-        width={600}
-        height={179}
-        className="absolute left-[10%] top-[56.5%] z-10 w-[80%]"
-      />
 
       <div className="absolute left-[8%] top-[67.2%] z-20 w-[84%] rounded-[18px] border-[3px] border-[#f0c447] bg-gradient-to-b from-[#b70b24] to-[#7a071b] px-[6%] pb-[2.5%] pt-[3%] shadow-[inset_0_0_0_2px_rgba(255,210,100,.35),0_8px_20px_rgba(50,0,0,.28)]">
         <p className="text-center text-[8px] font-black uppercase tracking-[.16em] text-[#ffe9aa]">
