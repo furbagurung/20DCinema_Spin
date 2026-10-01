@@ -55,7 +55,7 @@ export function AdminSidebar({ onLogout }: AdminSidebarProps) {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center gap-3 rounded-2xl border border-sidebar-border bg-sidebar-accent/40 p-2.5">
-          <div className="shrink-0 rounded-xl bg-[#100A0C] px-2.5 py-1.5">
+          <div className="shrink-0 rounded-xl bg-[#100A0C] px-2.5 py-1.5 md:group-data-[sidebar-open=false]/sidebar-wrapper:hidden">
             <Image
               src="/logo/White Reversed 20D Cinema Secondary Logo.png"
               alt="20D Cinema"
