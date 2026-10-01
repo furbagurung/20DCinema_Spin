@@ -51,38 +51,21 @@ export default function SpinPage() {
   }
 
   return (
-    <main className="min-h-svh bg-[#080407] px-3 py-4 text-white sm:px-5 sm:py-6">
-      <div className="mx-auto flex w-full max-w-[470px] flex-col">
-        <header className="mb-3 flex items-center justify-between px-1">
-          <Link
-            href="/"
-            aria-label="Back"
-            className="inline-flex size-9 items-center justify-center rounded-full border border-[#f0c95a]/25 bg-[#140a0e] text-white/70 transition hover:border-[#f0c95a]/55 hover:text-white"
-          >
-            <ArrowLeft className="size-4" />
-          </Link>
-
-          <div className="text-center">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#f3d47a]">
-              20D Cinema
-            </p>
-            <p className="mt-0.5 text-[10px] text-white/40">
-              Dashain · Spin & Win
-            </p>
-          </div>
-
-          <div className="size-9" />
-        </header>
+    <main className="min-h-svh overflow-hidden bg-[#070407] text-white">
+      <div className="relative mx-auto min-h-svh w-full max-w-[470px]">
+        <Link
+          href="/"
+          aria-label="Back"
+          className="absolute left-3 top-3 z-40 inline-flex size-9 items-center justify-center rounded-full border border-white/20 bg-black/35 text-white/80 shadow-lg backdrop-blur-md transition hover:border-[#f0c95a]/60 hover:text-white"
+        >
+          <ArrowLeft className="size-4" />
+        </Link>
 
         <PhaserSpinGame
           resetSignal={resetSignal}
           onResult={handleResult}
           onError={handleError}
         />
-
-        <p className="mt-3 text-center text-[10px] text-white/35">
-          KL Tower · Chuchepati, Kathmandu · One spin per phone number
-        </p>
       </div>
 
       {result ? (
