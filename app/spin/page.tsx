@@ -31,7 +31,7 @@ export default function SpinPage() {
   }, [])
 
   return (
-    <main className="dashain-client relative min-h-svh overflow-hidden bg-background px-4 py-5 text-foreground sm:px-6 sm:py-7">
+    <main className="dashain-client relative min-h-svh overflow-hidden px-4 py-5 text-foreground sm:px-6 sm:py-7">
       <DashainDecor />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-2.5rem)] w-full max-w-xl flex-col sm:min-h-[calc(100svh-3.5rem)]">
@@ -44,7 +44,7 @@ export default function SpinPage() {
             <Link
               href="/"
               aria-label="Go back"
-              className="inline-flex size-10 items-center justify-center rounded-full border border-[#E8B94F]/25 bg-background/75 text-muted-foreground shadow-sm backdrop-blur-md transition hover:border-[#E8B94F]/50 hover:text-foreground"
+              className="inline-flex size-10 items-center justify-center rounded-full border border-[#E8B94F]/25/75 text-muted-foreground shadow-sm backdrop-blur-md transition hover:border-[#E8B94F]/50 hover:text-foreground"
             >
               <ArrowLeft className="size-4" />
             </Link>
