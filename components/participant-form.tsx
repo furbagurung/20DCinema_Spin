@@ -71,7 +71,7 @@ export function ParticipantForm() {
               setErrors((current) => ({ ...current, name: undefined }))
             }
           }}
-          className="h-12 rounded-xl border-input bg-surface px-4 text-foreground placeholder:text-muted-foreground hover:border-input focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
+          className="h-12 rounded-xl border-[#E8B94F]/25 bg-background/60 px-4 text-foreground placeholder:text-muted-foreground shadow-sm backdrop-blur-sm hover:border-[#E8B94F]/45 focus-visible:border-[#D6003C] focus-visible:ring-[#D6003C]/15"
         />
         {errors.name ? (
           <p className="text-xs text-destructive">{errors.name}</p>
@@ -111,7 +111,7 @@ export function ParticipantForm() {
 
       <Button
         type="submit"
-        className="group mt-2 h-12 w-full rounded-xl bg-[#D6003C] text-sm font-semibold text-white shadow-[0_12px_36px_rgba(214,0,60,0.2)] hover:bg-[#BE0036] focus-visible:ring-[#D6003C]/30"
+        className="group mt-2 h-12 w-full rounded-xl bg-gradient-to-r from-[#B80032] via-[#D6003C] to-[#E34B2F] text-sm font-semibold text-white shadow-[0_14px_36px_rgba(214,0,60,0.22)] hover:brightness-105 focus-visible:ring-[#D6003C]/30"
       >
         Start
         <ArrowRight className="ml-1 size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
