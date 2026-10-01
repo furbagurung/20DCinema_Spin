@@ -1,105 +1,189 @@
 "use client"
 
-import Image from "next/image"
+import { useCallback, useState } from "react"
 import Link from "next/link"
-import { motion } from "motion/react"
-import { ArrowLeft, Sparkles } from "lucide-react"
-import { useEffect, useState } from "react"
+import { ArrowLeft, Check, Clipboard, Sparkles } from "lucide-react"
+import { useRouter } from "next/navigation"
 
-import { DashainDecor } from "@/components/dashain-decor"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { SpinWheel } from "@/components/spin-wheel"
-import { Badge } from "@/components/ui/badge"
+import {
+  PhaserSpinGame,
+  type PhaserSpinResult,
+} from "@/components/phaser-spin-game"
+import { Button } from "@/components/ui/button"
+
+const labels: Record<string, string> = {
+  free_ticket: "FREE TICKET",
+  fifty_percent: "50% OFF",
+  rs_100_off: "Rs. 100 OFF",
+  rs_50_off: "Rs. 50 OFF",
+  twenty_percent: "20% OFF",
+  spin_again: "SPIN AGAIN",
+}
 
 export default function SpinPage() {
-  const [name, setName] = useState("")
+  const router = useRouter()
+  const [result, setResult] = useState<PhaserSpinResult | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [resetSignal, setResetSignal] = useState(0)
+  const [copied, setCopied] = useState(false)
 
-  useEffect(() => {
-    const saved = sessionStorage.getItem("20d-spin-participant")
-
-    if (!saved) {
-      window.location.replace("/")
-      return
-    }
-
-    try {
-      const participant = JSON.parse(saved) as { name?: string }
-      setName(participant.name ?? "")
-    } catch {
-      setName("")
-    }
+  const handleResult = useCallback((next: PhaserSpinResult) => {
+    setResult(next)
   }, [])
 
+  const handleError = useCallback((message: string) => {
+    setError(message)
+  }, [])
+
+  function done() {
+    sessionStorage.removeItem("20d-spin-participant")
+    router.push("/")
+  }
+
+  async function copyCode() {
+    if (!result?.prize_code) return
+
+    try {
+      await navigator.clipboard.writeText(result.prize_code)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1600)
+    } catch {}
+  }
+
   return (
-    <main className="dashain-client relative min-h-svh overflow-hidden px-3 py-4 text-foreground sm:px-5 sm:py-7">
-      <DashainDecor />
+    <main className="min-h-svh bg-[#080407] px-3 py-4 text-white sm:px-5 sm:py-6">
+      <div className="mx-auto flex w-full max-w-[470px] flex-col">
+        <header className="mb-3 flex items-center justify-between px-1">
+          <Link
+            href="/"
+            aria-label="Back"
+            className="inline-flex size-9 items-center justify-center rounded-full border border-[#f0c95a]/25 bg-[#140a0e] text-white/70 transition hover:border-[#f0c95a]/55 hover:text-white"
+          >
+            <ArrowLeft className="size-4" />
+          </Link>
 
-      <div className="relative z-10 mx-auto w-full max-w-[440px]">
-        <motion.div
-          className="dashain-game-frame overflow-hidden rounded-[30px] border-[3px] border-[#D9AD3C] bg-[#5E071A] p-1 shadow-[0_25px_80px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,229,151,0.35)]"
-          initial={{ opacity: 0, y: 16, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="relative overflow-hidden rounded-[24px] border border-[#F2D06C]/65 bg-[#760A22] px-3 pb-4 pt-4 sm:px-5">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_10%,rgba(255,210,73,0.16),transparent_32%),linear-gradient(180deg,#7F0A23_0%,#5A0719_100%)]" />
-
-            <header className="relative z-20 text-center">
-              <div className="mx-auto w-fit rounded-lg border border-[#F1D06B]/60 bg-[#FFF4D0] px-4 py-1.5 shadow-[0_5px_16px_rgba(0,0,0,0.25)]">
-                <Image
-                  src="/logo/White Reversed 20D Cinema Secondary Logo.png"
-                  alt="20D Cinema"
-                  width={220}
-                  height={90}
-                  priority
-                  className="h-auto w-28 sm:w-32"
-                />
-              </div>
-
-              <Badge className="mt-3 border border-[#F1D06B]/35 bg-[#F1D06B]/10 text-[#FFEAA2] shadow-none">
-                <Sparkles className="size-3" />
-                Dashain Spin &amp; Win
-              </Badge>
-
-              <h1 className="mt-2 text-[24px] font-black leading-tight text-[#FFD85F] [text-shadow:0_2px_0_#7C2600,0_4px_12px_rgba(0,0,0,0.35)] sm:text-3xl">
-                Spin &amp; Win
-              </h1>
-
-              <p className="mt-1 text-[10px] font-medium tracking-[0.12em] text-[#FFE9A2]/80">
-                {name ? "Good luck, " + name : "Good luck"} · एकपटक मात्र spin
-              </p>
-            </header>
-
-            <div className="relative z-10 mt-4 overflow-hidden rounded-[20px] border border-[#F4D46F]/45 bg-[linear-gradient(180deg,#2F82CF_0%,#7FC5E8_55%,#D39A58_100%)] px-2 pb-3 pt-2">
-              <div className="absolute inset-x-0 top-0 h-20 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.6),transparent_24%),radial-gradient(circle_at_80%_28%,rgba(255,255,255,0.55),transparent_20%)]" />
-              <div className="absolute left-[8%] top-3 text-lg">🪁</div>
-              <div className="absolute right-[8%] top-4 text-lg">🪁</div>
-
-              <div className="relative z-10">
-                <SpinWheel />
-              </div>
-            </div>
+          <div className="text-center">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#f3d47a]">
+              20D Cinema
+            </p>
+            <p className="mt-0.5 text-[10px] text-white/40">
+              Dashain · Spin & Win
+            </p>
           </div>
-        </motion.div>
 
-        <p className="relative z-10 mt-3 text-center text-[10px] text-muted-foreground">
-          20D Cinema · KL Tower · Chuchepati, Kathmandu
+          <div className="size-9" />
+        </header>
+
+        <PhaserSpinGame
+          resetSignal={resetSignal}
+          onResult={handleResult}
+          onError={handleError}
+        />
+
+        <p className="mt-3 text-center text-[10px] text-white/35">
+          KL Tower · Chuchepati, Kathmandu · One spin per phone number
         </p>
       </div>
 
-      <div className="absolute right-3 top-3 z-50 sm:right-5 sm:top-5">
-        <ThemeToggle />
-      </div>
+      {result ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/75 p-4 backdrop-blur-sm sm:items-center">
+          <div className="w-full max-w-sm overflow-hidden rounded-[28px] border border-[#f0c95a]/35 bg-[#140a0e] p-6 text-center shadow-[0_30px_100px_rgba(0,0,0,0.7)]">
+            <div className="mx-auto flex size-14 items-center justify-center rounded-full border border-[#f0c95a]/25 bg-[#f0c95a]/10 text-[#ffd85f]">
+              <Sparkles className="size-6" />
+            </div>
 
-      <div className="absolute left-3 top-3 z-50 sm:left-5 sm:top-5">
-        <Link
-          href="/"
-          aria-label="Go back"
-          className="inline-flex size-9 items-center justify-center rounded-full border border-[#E8B94F]/30 bg-background/70 text-muted-foreground shadow-sm backdrop-blur-md transition hover:border-[#E8B94F]/60 hover:text-foreground"
-        >
-          <ArrowLeft className="size-4" />
-        </Link>
-      </div>
+            <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em] text-[#f3d47a]">
+              {result.prize_key === "spin_again" ? "Lucky you" : "Congratulations"}
+            </p>
+
+            <h2 className="mt-2 text-3xl font-black uppercase tracking-tight text-[#ffd85f]">
+              {result.label ?? labels[result.prize_key]}
+            </h2>
+
+            {result.prize_key === "spin_again" ? (
+              <p className="mx-auto mt-3 max-w-[280px] text-sm leading-6 text-white/55">
+                You earned another chance. Spin the wheel again.
+              </p>
+            ) : (
+              <>
+                <p className="mx-auto mt-3 max-w-[280px] text-sm leading-6 text-white/55">
+                  Show this prize code at the 20D Cinema counter.
+                </p>
+
+                <div className="mt-5 rounded-2xl border border-dashed border-white/15 bg-white/[0.035] p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/40">
+                    Your prize code
+                  </p>
+                  <p className="mt-2 font-mono text-lg font-bold tracking-[0.12em] text-white">
+                    {result.prize_code}
+                  </p>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => void copyCode()}
+                    className="mt-2 h-8 w-full text-xs text-white/55 hover:bg-white/10 hover:text-white"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="size-3.5" />
+                        Copied
+                      </>
+                    ) : (
+                      <>
+                        <Clipboard className="size-3.5" />
+                        Copy code
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </>
+            )}
+
+            <Button
+              type="button"
+              onClick={() => {
+                if (result.prize_key === "spin_again") {
+                  setResult(null)
+                  setCopied(false)
+                  setResetSignal((value) => value + 1)
+                  return
+                }
+
+                done()
+              }}
+              className="mt-5 h-12 w-full rounded-xl bg-[#d6003c] font-semibold text-white hover:bg-[#be0036]"
+            >
+              {result.prize_key === "spin_again" ? "Spin Again" : "Done"}
+            </Button>
+
+            {result.prize_key !== "spin_again" ? (
+              <p className="mt-3 text-[10px] leading-5 text-white/35">
+                Keep this screen visible until our staff confirms your prize.
+              </p>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/80 p-4 backdrop-blur-sm sm:items-center">
+          <div className="w-full max-w-sm rounded-[28px] border border-[#f0c95a]/25 bg-[#140a0e] p-6 text-center shadow-[0_30px_100px_rgba(0,0,0,0.7)]">
+            <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-[#d6003c]/15 text-[#ff6a91]">
+              <Sparkles className="size-5" />
+            </div>
+            <h2 className="mt-4 text-xl font-bold">Unable to spin</h2>
+            <p className="mt-3 text-sm leading-6 text-white/55">{error}</p>
+            <Button
+              type="button"
+              onClick={() => setError(null)}
+              className="mt-5 h-11 w-full rounded-xl bg-[#d6003c] text-white hover:bg-[#be0036]"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      ) : null}
     </main>
   )
 }
