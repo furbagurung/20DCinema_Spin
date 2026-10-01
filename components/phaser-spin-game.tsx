@@ -90,8 +90,8 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
       if (disposed || !mountRef.current) return
 
       class SpinScene extends Phaser.Scene {
-        wheel!: Phaser.GameObjects.Container
-        spinButton!: Phaser.GameObjects.Container
+        wheel!: any
+        spinButton!: any
         spinning = false
         audioContext: AudioContext | null = null
         lastTick = -1
@@ -342,7 +342,7 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
           }).setOrigin(0.5)
         }
 
-        async handleSpin(text: Phaser.GameObjects.Text, button: Phaser.GameObjects.Graphics) {
+        async handleSpin(text: any, button: any) {
           if (this.spinning) return
 
           this.spinning = true
@@ -409,7 +409,7 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
           next()
         }
 
-        spinTo(index: number, result: PhaserSpinResult, text: Phaser.GameObjects.Text, button: Phaser.GameObjects.Graphics) {
+        spinTo(index: number, result: PhaserSpinResult, text: any, button: any) {
           text.setText("SPINNING...")
 
           const current = Phaser.Math.RadToDeg(this.wheel.rotation)
