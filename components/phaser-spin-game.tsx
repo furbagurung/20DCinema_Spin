@@ -28,7 +28,14 @@ const PRIZES: Array<{ key: PrizeKey; top: string; bottom: string }> = [
   { key: "spin_again", top: "SPIN", bottom: "AGAIN" },
 ]
 
-const SEGMENT_COLORS = [0xd6003c, 0xf2c531, 0xa40b31, 0xf4c83d, 0xd6003c, 0xf2c531]
+const SEGMENT_COLORS = [
+  0xd7073d,
+  0xf2c42e,
+  0xb70b32,
+  0xf0b52c,
+  0xd7073d,
+  0xf2c42e,
+]
 
 type Props = {
   resetSignal?: number
@@ -36,7 +43,11 @@ type Props = {
   onError: (message: string) => void
 }
 
-export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
+export function PhaserSpinGame({
+  resetSignal = 0,
+  onResult,
+  onError,
+}: Props) {
   const mountRef = useRef<HTMLDivElement>(null)
   const sceneRef = useRef<any>(null)
   const gameRef = useRef<any>(null)
@@ -101,7 +112,8 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
         }
 
         create() {
-          this.drawBackground()
+          this.drawBaseFrame()
+          this.drawFestiveScene()
           this.drawHeader()
           this.createWheel()
           this.createSpinButton()
@@ -109,100 +121,299 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
           sceneRef.current = this
         }
 
-        drawBackground() {
+        drawBaseFrame() {
           const { width, height } = this.scale
 
-          const bg = this.add.graphics()
-          bg.fillGradientStyle(0x7f0a23, 0x7f0a23, 0x4b0617, 0x4b0617, 1)
-          bg.fillRect(0, 0, width, height)
+          const background = this.add.graphics()
+          background.fillGradientStyle(
+            0x8d1028,
+            0x6f0a20,
+            0x420612,
+            0x30040e,
+            1,
+          )
+          background.fillRect(0, 0, width, height)
 
-          const scene = this.add.graphics()
-          scene.fillGradientStyle(0x2f82cf, 0x79c5e8, 0x8c603b, 0x5a2c1d, 1)
-          scene.fillRoundedRect(18, 145, width - 36, 380, 26)
+          const frame = this.add.graphics()
+          frame.fillStyle(0x570718, 1)
+          frame.fillRoundedRect(7, 7, width - 14, height - 14, 28)
+          frame.lineStyle(3, 0xd9ad3c, 1)
+          frame.strokeRoundedRect(7, 7, width - 14, height - 14, 28)
+          frame.lineStyle(1, 0xffe59a, 0.5)
+          frame.strokeRoundedRect(13, 13, width - 26, height - 26, 23)
 
-          const mountains = this.add.graphics()
-          mountains.fillStyle(0x456979, 1)
-          mountains.fillTriangle(18, 505, width * 0.28, 250, width * 0.54, 505)
-          mountains.fillStyle(0x5a7781, 1)
-          mountains.fillTriangle(width * 0.2, 505, width * 0.58, 215, width - 18, 505)
-          mountains.fillStyle(0x365666, 1)
-          mountains.fillTriangle(width * 0.58, 505, width * 0.78, 290, width - 18, 505)
-          mountains.fillStyle(0xf3efe2, 0.9)
-          mountains.fillTriangle(width * 0.49, 292, width * 0.58, 215, width * 0.66, 292)
-
-          const garlands = this.add.graphics()
-          for (const x of [32, width - 32]) {
-            garlands.lineStyle(2, 0x315b25, 1)
-            garlands.lineBetween(x, 170, x, 500)
-
-            for (let y = 182; y < 500; y += 42) {
-              garlands.fillStyle(0xf29a1b, 1)
-              garlands.fillCircle(x, y, 9)
-              garlands.fillStyle(0xffc12e, 1)
-              garlands.fillCircle(x - 5, y - 4, 5)
-              garlands.fillCircle(x + 5, y - 4, 5)
-              garlands.fillStyle(0x315b25, 1)
-              garlands.fillTriangle(x, y + 14, x - 6, y + 3, x + 6, y + 3)
-            }
-          }
-
-          const diyas = this.add.graphics()
-          for (const x of [50, width - 50]) {
-            const y = height - 120
-            diyas.fillStyle(0xd88418, 1)
-            diyas.fillEllipse(x, y + 12, 54, 22)
-            diyas.fillStyle(0xffc44e, 1)
-            diyas.fillTriangle(x, y - 8, x - 7, y + 10, x + 7, y + 10)
-            diyas.fillStyle(0xfff0a5, 0.9)
-            diyas.fillTriangle(x, y - 23, x - 4, y - 4, x + 4, y - 4)
-          }
-
-          this.drawKite(width * 0.22, 205, 0xe83a3a, 0.8)
-          this.drawKite(width * 0.79, 225, 0x3c7edb, 0.7)
+          this.drawCornerOrnament(25, 25, 1)
+          this.drawCornerOrnament(width - 25, 25, -1)
+          this.drawCornerOrnament(25, height - 25, 1, -1)
+          this.drawCornerOrnament(width - 25, height - 25, -1, -1)
         }
 
-        drawKite(x: number, y: number, color: number, scale: number) {
+        drawCornerOrnament(
+          x: number,
+          y: number,
+          sx: number,
+          sy = 1,
+        ) {
+          const ornament = this.add.graphics()
+          ornament.lineStyle(2, 0xe4bb4e, 0.8)
+          ornament.beginPath()
+          ornament.moveTo(x, y)
+          ornament.quadraticBezierTo(
+            x + sx * 22,
+            y,
+            x + sx * 25,
+            y + sy * 12,
+          )
+          ornament.quadraticBezierTo(
+            x + sx * 25,
+            y + sy * 25,
+            x + sx * 12,
+            y + sy * 25,
+          )
+          ornament.strokePath()
+          ornament.fillStyle(0xf3c74c, 0.85)
+          ornament.fillCircle(x + sx * 6, y + sy * 6, 3)
+        }
+
+        drawFestiveScene() {
+          const { width } = this.scale
+
+          const scene = this.add.graphics()
+          scene.fillGradientStyle(
+            0x3d92d0,
+            0x78c6e6,
+            0xd9b36b,
+            0x7d3f25,
+            1,
+          )
+          scene.fillRoundedRect(20, 148, width - 40, 400, 24)
+
+          const haze = this.add.graphics()
+          haze.fillStyle(0xffffff, 0.14)
+          haze.fillEllipse(width / 2, 245, width - 75, 110)
+          haze.fillEllipse(width / 2, 430, width - 40, 100)
+
+          const mountains = this.add.graphics()
+          mountains.fillStyle(0x6a8790, 1)
+          mountains.fillTriangle(
+            20,
+            520,
+            width * 0.29,
+            265,
+            width * 0.56,
+            520,
+          )
+          mountains.fillStyle(0x486b78, 1)
+          mountains.fillTriangle(
+            width * 0.18,
+            520,
+            width * 0.59,
+            220,
+            width - 20,
+            520,
+          )
+          mountains.fillStyle(0x365b69, 1)
+          mountains.fillTriangle(
+            width * 0.54,
+            520,
+            width * 0.78,
+            292,
+            width - 20,
+            520,
+          )
+
+          mountains.fillStyle(0xf5f0df, 0.95)
+          mountains.fillTriangle(
+            width * 0.51,
+            290,
+            width * 0.59,
+            220,
+            width * 0.67,
+            290,
+          )
+          mountains.fillTriangle(
+            width * 0.24,
+            345,
+            width * 0.29,
+            265,
+            width * 0.36,
+            345,
+          )
+
+          const foreground = this.add.graphics()
+          foreground.fillStyle(0x70401f, 0.65)
+          foreground.fillRect(20, 482, width - 40, 66)
+
+          this.drawGarland(38, 164, 518, 1)
+          this.drawGarland(width - 38, 164, 518, -1)
+
+          this.drawKite(width * 0.23, 213, 0xe83a3a, 0.8)
+          this.drawKite(width * 0.78, 230, 0x3e79db, 0.7)
+
+          this.drawDiya(56, 535, 1)
+          this.drawDiya(width - 56, 535, -1)
+        }
+
+        drawGarland(x: number, top: number, bottom: number, side: number) {
+          const garland = this.add.graphics()
+          garland.lineStyle(2, 0x315b25, 1)
+          garland.lineBetween(x, top, x, bottom)
+
+          for (let y = top + 15; y < bottom; y += 44) {
+            this.drawFlower(x, y, 0.72)
+            garland.fillStyle(0x315b25, 1)
+            garland.fillTriangle(
+              x,
+              y + 18,
+              x + side * 7,
+              y + 4,
+              x + side * 6,
+              y + 25,
+            )
+          }
+        }
+
+        drawFlower(x: number, y: number, scale: number) {
+          const flower = this.add.graphics()
+          const petal = 7 * scale
+
+          flower.fillStyle(0xf08a19, 1)
+          for (let i = 0; i < 8; i++) {
+            const angle = (Math.PI * 2 * i) / 8
+            flower.fillCircle(
+              x + Math.cos(angle) * petal * 0.75,
+              y + Math.sin(angle) * petal * 0.75,
+              petal * 0.72,
+            )
+          }
+
+          flower.fillStyle(0xffc83f, 1)
+          flower.fillCircle(x, y, petal * 0.72)
+
+          flower.fillStyle(0xf5e7a0, 0.8)
+          flower.fillCircle(x - petal * 0.2, y - petal * 0.25, petal * 0.2)
+        }
+
+        drawDiya(x: number, y: number, side: number) {
+          const diya = this.add.graphics()
+          diya.fillStyle(0xc87817, 1)
+          diya.fillEllipse(x, y + 9, 54, 18)
+          diya.lineStyle(2, 0xffd25b, 1)
+          diya.strokeEllipse(x, y + 9, 54, 18)
+
+          diya.fillStyle(0xffc93c, 1)
+          diya.fillTriangle(x, y - 10, x - 8, y + 7, x + 8, y + 7)
+
+          diya.fillStyle(0xfff4b0, 0.9)
+          diya.fillTriangle(x, y - 28, x - 5, y - 6, x + 5, y - 6)
+
+          this.tweens.add({
+            targets: diya,
+            scaleX: { from: 0.95, to: 1.05 },
+            scaleY: { from: 0.96, to: 1.04 },
+            duration: 700,
+            yoyo: true,
+            repeat: -1,
+            ease: "Sine.inOut",
+          })
+
+          diya.x += side * 0
+        }
+
+        drawKite(
+          x: number,
+          y: number,
+          color: number,
+          scale: number,
+        ) {
           const kite = this.add.graphics()
           kite.fillStyle(color, 1)
-          kite.fillTriangle(x, y - 20 * scale, x + 18 * scale, y, x, y + 20 * scale)
-          kite.fillStyle(0xffe06a, 1)
-          kite.fillTriangle(x, y - 20 * scale, x, y + 20 * scale, x - 18 * scale, y)
-          kite.lineStyle(1, 0x7a3c2a, 1)
-          kite.lineBetween(x, y + 20 * scale, x + 10 * scale, y + 55 * scale)
+          kite.fillTriangle(
+            x,
+            y - 22 * scale,
+            x + 19 * scale,
+            y,
+            x,
+            y + 22 * scale,
+          )
+          kite.fillStyle(0xffdf67, 1)
+          kite.fillTriangle(
+            x,
+            y - 22 * scale,
+            x,
+            y + 22 * scale,
+            x - 19 * scale,
+            y,
+          )
+          kite.lineStyle(1, 0x693d2d, 1)
+          kite.lineBetween(
+            x,
+            y + 22 * scale,
+            x + 10 * scale,
+            y + 62 * scale,
+          )
         }
 
         drawHeader() {
           const { width } = this.scale
 
-          const title = this.add.text(width / 2, 28, "दशैं–तिहार अफर गेम", {
+          this.add.text(width / 2, 25, "गेम खेल्नुहोस्, उपहार जित्नुहोस्", {
             fontFamily: "Arial, sans-serif",
-            fontSize: "28px",
+            fontSize: "10px",
             fontStyle: "bold",
-            color: "#ffd85f",
-            stroke: "#7c2600",
-            strokeThickness: 7,
-            shadow: { color: "#2c050c", blur: 8, offsetX: 0, offsetY: 4, fill: true },
+            color: "#ffe9a2",
           }).setOrigin(0.5)
 
-          this.add.text(width / 2, 70, "20D CINEMA  •  SPIN & WIN", {
-            fontFamily: "Arial, sans-serif",
-            fontSize: "12px",
-            fontStyle: "bold",
-            color: "#fff4d0",
-            backgroundColor: "#8c1730",
-            padding: { left: 14, right: 14, top: 8, bottom: 8 },
-          }).setOrigin(0.5)
+          const ribbon = this.add.graphics()
+          ribbon.fillStyle(0xc3163b, 1)
+          ribbon.fillTriangle(
+            55,
+            57,
+            25,
+            47,
+            25,
+            82,
+          )
+          ribbon.fillTriangle(
+            width - 55,
+            57,
+            width - 25,
+            47,
+            width - 25,
+            82,
+          )
+          ribbon.fillStyle(0xffe6a0, 1)
+          ribbon.fillRoundedRect(48, 45, width - 96, 55, 12)
+          ribbon.lineStyle(2, 0xf2c74e, 1)
+          ribbon.strokeRoundedRect(48, 45, width - 96, 55, 12)
 
-          this.add.text(width / 2, 113, "गेम खेल्नुहोस्, उपहार जित्नुहोस्", {
+          const title = this.add.text(
+            width / 2,
+            72,
+            "दशैं–तिहार अफर गेम",
+            {
+              fontFamily: "Arial, sans-serif",
+              fontSize: "24px",
+              fontStyle: "bold",
+              color: "#a20b2f",
+              stroke: "#fff3c6",
+              strokeThickness: 2,
+            },
+          ).setOrigin(0.5)
+
+          this.add.text(width / 2, 117, "20D CINEMA  •  SPIN & WIN", {
             fontFamily: "Arial, sans-serif",
-            fontSize: "11px",
-            color: "#ffeaa4",
+            fontSize: "10px",
+            fontStyle: "bold",
+            color: "#fff3c7",
+            backgroundColor: "#7e0c26",
+            padding: { left: 12, right: 12, top: 6, bottom: 6 },
           }).setOrigin(0.5)
 
           this.tweens.add({
             targets: title,
-            scale: 1.035,
-            duration: 1500,
+            scale: { from: 1, to: 1.025 },
+            duration: 1700,
             yoyo: true,
             repeat: -1,
             ease: "Sine.inOut",
@@ -213,22 +424,33 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
           const { width } = this.scale
           const cx = width / 2
           const cy = 355
-          const radius = 146
+          const radius = 139
           const slice = Phaser.Math.DegToRad(60)
           const start = Phaser.Math.DegToRad(-120)
 
           this.wheel = this.add.container(cx, cy)
 
           const glow = this.add.graphics()
-          glow.fillStyle(0xffcf45, 0.12)
-          glow.fillCircle(0, 0, radius + 28)
+          glow.fillStyle(0xffd45a, 0.11)
+          glow.fillCircle(0, 0, radius + 34)
           this.wheel.add(glow)
 
+          const pedestal = this.add.graphics()
+          pedestal.fillStyle(0x641020, 1)
+          pedestal.fillRoundedRect(-166, 130, 332, 38, 15)
+          pedestal.fillStyle(0x8e1730, 1)
+          pedestal.fillRoundedRect(-135, 112, 270, 30, 12)
+          pedestal.lineStyle(2, 0xf0c65b, 1)
+          pedestal.strokeRoundedRect(-135, 112, 270, 30, 12)
+          this.wheel.add(pedestal)
+
           const outer = this.add.graphics()
-          outer.fillStyle(0x7a0b24, 1)
-          outer.fillCircle(0, 0, radius + 18)
-          outer.lineStyle(6, 0xf0c95a, 1)
-          outer.strokeCircle(0, 0, radius + 16)
+          outer.fillStyle(0x8e102a, 1)
+          outer.fillCircle(0, 0, radius + 19)
+          outer.lineStyle(7, 0xf0c95a, 1)
+          outer.strokeCircle(0, 0, radius + 17)
+          outer.lineStyle(2, 0xffeaa0, 0.7)
+          outer.strokeCircle(0, 0, radius + 9)
           this.wheel.add(outer)
 
           const segments = this.add.graphics()
@@ -244,7 +466,7 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
             segments.closePath()
             segments.fillPath()
 
-            segments.lineStyle(2, 0xffec9a, 0.8)
+            segments.lineStyle(2, 0xffe99b, 0.85)
             segments.beginPath()
             segments.moveTo(0, 0)
             segments.arc(0, 0, radius, a0, a1)
@@ -252,94 +474,200 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
             segments.strokePath()
 
             const mid = Phaser.Math.DegToRad(-90 + index * 60)
-            const label = this.add.text(Math.cos(mid) * 92, Math.sin(mid) * 92, `${prize.top}\n${prize.bottom}`, {
-              fontFamily: "Arial, sans-serif",
-              fontSize: index > 1 && index < 4 ? "10px" : "12px",
-              fontStyle: "bold",
-              color: "#fff7dc",
-              align: "center",
-              stroke: "#4c0a16",
-              strokeThickness: 3,
-            }).setOrigin(0.5)
-            label.setRotation(mid + Math.PI / 2)
+
+            const icon = this.add.circle(
+              Math.cos(mid) * 91,
+              Math.sin(mid) * 91 - 18,
+              10,
+              0xf8d15e,
+            )
+            icon.setStrokeStyle(2, 0x8f1730, 1)
+            this.wheel.add(icon)
+
+            const label = this.add.text(
+              Math.cos(mid) * 91,
+              Math.sin(mid) * 91 + 7,
+              `${prize.top}\n${prize.bottom}`,
+              {
+                fontFamily: "Arial, sans-serif",
+                fontSize: index > 1 && index < 4 ? "10px" : "11px",
+                fontStyle: "bold",
+                color: "#fff9e5",
+                align: "center",
+                stroke: "#5c0719",
+                strokeThickness: 3,
+                lineSpacing: 1,
+              },
+            ).setOrigin(0.5)
+
             this.wheel.add(label)
           })
 
-          for (let i = 0; i < 12; i++) {
-            const angle = Phaser.Math.DegToRad(i * 30 - 15)
-            const bulb = this.add.circle(Math.cos(angle) * (radius + 8), Math.sin(angle) * (radius + 8), 5, 0xffdf72)
-            bulb.setStrokeStyle(1, 0xfff4b0, 1)
+          for (let i = 0; i < 18; i++) {
+            const angle = Phaser.Math.DegToRad(i * 20)
+            const bulb = this.add.circle(
+              Math.cos(angle) * (radius + 8),
+              Math.sin(angle) * (radius + 8),
+              4.5,
+              i % 2 ? 0xffd65a : 0xfff0a5,
+            )
+            bulb.setStrokeStyle(1, 0xfff5c5, 1)
             this.wheel.add(bulb)
 
             this.tweens.add({
               targets: bulb,
-              alpha: { from: 0.45, to: 1 },
-              scale: { from: 0.85, to: 1.2 },
-              duration: 650,
-              delay: i * 55,
+              alpha: { from: 0.35, to: 1 },
+              scale: { from: 0.82, to: 1.18 },
+              duration: 620,
+              delay: i * 45,
               yoyo: true,
               repeat: -1,
             })
           }
 
+          const inner = this.add.graphics()
+          inner.lineStyle(2, 0xffe99b, 0.55)
+          inner.strokeCircle(0, 0, 108)
+          inner.strokeCircle(0, 0, 47)
+          this.wheel.add(inner)
+
           const hub = this.add.graphics()
-          hub.fillStyle(0x9c1835, 1)
-          hub.fillCircle(0, 0, 39)
+          hub.fillStyle(0x9b1634, 1)
+          hub.fillCircle(0, 0, 40)
           hub.lineStyle(3, 0xf5d06b, 1)
-          hub.strokeCircle(0, 0, 39)
+          hub.strokeCircle(0, 0, 40)
           hub.fillStyle(0xf5d06b, 1)
           hub.fillCircle(0, 0, 5)
           this.wheel.add(hub)
 
+          this.add.text(cx, cy + 1, "20D", {
+            fontFamily: "Arial, sans-serif",
+            fontSize: "13px",
+            fontStyle: "bold",
+            color: "#fff1b0",
+          }).setOrigin(0.5)
+
           const pointer = this.add.graphics()
           pointer.fillStyle(0xffef9f, 1)
-          pointer.fillTriangle(cx, cy - radius - 43, cx - 15, cy - radius - 13, cx + 15, cy - radius - 13)
-          pointer.lineStyle(2, 0xa86c13, 1)
-          pointer.strokeTriangle(cx, cy - radius - 43, cx - 15, cy - radius - 13, cx + 15, cy - radius - 13)
+          pointer.fillTriangle(
+            cx,
+            cy - radius - 39,
+            cx - 17,
+            cy - radius - 10,
+            cx + 17,
+            cy - radius - 10,
+          )
+          pointer.lineStyle(2, 0x9d6515, 1)
+          pointer.strokeTriangle(
+            cx,
+            cy - radius - 39,
+            cx - 17,
+            cy - radius - 10,
+            cx + 17,
+            cy - radius - 10,
+          )
+
+          const pointerGlow = this.add.circle(
+            cx,
+            cy - radius - 18,
+            5,
+            0xffe98a,
+          )
+          pointerGlow.setDepth(10)
+
+          this.tweens.add({
+            targets: pointerGlow,
+            alpha: { from: 0.4, to: 1 },
+            scale: { from: 0.8, to: 1.35 },
+            duration: 700,
+            yoyo: true,
+            repeat: -1,
+          })
         }
 
         createSpinButton() {
           const { width, height } = this.scale
-          this.spinButton = this.add.container(width / 2, height - 72)
+          this.spinButton = this.add.container(width / 2, height - 76)
 
-          const plate = this.add.graphics()
-          plate.fillStyle(0x8a102a, 1)
-          plate.fillRoundedRect(-165, -29, 330, 58, 18)
-          plate.lineStyle(2, 0xf1c85b, 1)
-          plate.strokeRoundedRect(-165, -29, 330, 58, 18)
-          this.spinButton.add(plate)
+          const panel = this.add.graphics()
+          panel.fillStyle(0x760d25, 1)
+          panel.fillRoundedRect(-170, -44, 340, 88, 18)
+          panel.lineStyle(2, 0xf0c95a, 1)
+          panel.strokeRoundedRect(-170, -44, 340, 88, 18)
+          panel.lineStyle(1, 0xffe8a0, 0.35)
+          panel.strokeRoundedRect(-162, -37, 324, 74, 14)
+          this.spinButton.add(panel)
+
+          this.add.text(width / 2, height - 107, "READY TO WIN?", {
+            fontFamily: "Arial, sans-serif",
+            fontSize: "9px",
+            fontStyle: "bold",
+            color: "#ffeaa2",
+            letterSpacing: 2,
+          }).setOrigin(0.5)
 
           const button = this.add.graphics()
-          button.fillStyle(0xffc62d, 1)
-          button.fillRoundedRect(-105, -20, 210, 40, 20)
-          button.lineStyle(2, 0xfff1a3, 1)
-          button.strokeRoundedRect(-105, -20, 210, 40, 20)
+          button.fillGradientStyle(0xffe35a, 0xf4b51f, 0xe79213, 0xffca34, 1)
+          button.fillRoundedRect(-110, -22, 220, 44, 22)
+          button.lineStyle(2, 0xfff4ae, 1)
+          button.strokeRoundedRect(-110, -22, 220, 44, 22)
           this.spinButton.add(button)
 
           const text = this.add.text(0, 0, "SPIN & WIN", {
             fontFamily: "Arial, sans-serif",
-            fontSize: "20px",
+            fontSize: "19px",
             fontStyle: "bold",
-            color: "#6b1021",
+            color: "#671020",
           }).setOrigin(0.5)
           this.spinButton.add(text)
 
-          this.spinButton.setSize(330, 58)
+          this.spinButton.setSize(340, 88)
           this.spinButton.setInteractive(
-            new Phaser.Geom.Rectangle(-165, -29, 330, 58),
-            Phaser.Geom.Rectangle.Contains
+            new Phaser.Geom.Rectangle(-170, -44, 340, 88),
+            Phaser.Geom.Rectangle.Contains,
           )
 
-          this.spinButton.on("pointerdown", () => this.handleSpin(text, button))
+          this.spinButton.on("pointerover", () => {
+            if (!this.spinning) this.tweens.add({
+              targets: this.spinButton,
+              scale: 1.025,
+              duration: 130,
+            })
+          })
+
+          this.spinButton.on("pointerout", () => {
+            if (!this.spinning) this.tweens.add({
+              targets: this.spinButton,
+              scale: 1,
+              duration: 130,
+            })
+          })
+
+          this.spinButton.on("pointerdown", () => {
+            this.tweens.add({
+              targets: this.spinButton,
+              scale: 0.975,
+              duration: 80,
+              yoyo: true,
+            })
+            this.handleSpin(text, button)
+          })
         }
 
         drawFooter() {
           const { width, height } = this.scale
-          this.add.text(width / 2, height - 25, "One spin per phone number  •  20D Cinema · Kathmandu", {
-            fontFamily: "Arial, sans-serif",
-            fontSize: "9px",
-            color: "#ffe9a2",
-          }).setOrigin(0.5)
+
+          this.add.text(
+            width / 2,
+            height - 20,
+            "ONE SPIN PER PHONE NUMBER  •  20D CINEMA · KATHMANDU",
+            {
+              fontFamily: "Arial, sans-serif",
+              fontSize: "7px",
+              fontStyle: "bold",
+              color: "#ffe9a2",
+            },
+          ).setOrigin(0.5)
         }
 
         async handleSpin(text: any, button: any) {
@@ -347,25 +675,41 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
 
           this.spinning = true
           text.setText("PREPARING...")
-          button.setAlpha(0.7)
+          button.setAlpha(0.72)
 
           try {
             const result = await requestSpin()
-            const index = PRIZES.findIndex((prize) => prize.key === result.prize_key)
+            const index = PRIZES.findIndex(
+              (prize) => prize.key === result.prize_key,
+            )
 
-            if (index < 0) throw new Error("Prize result could not be read.")
+            if (index < 0) {
+              throw new Error("Prize result could not be read.")
+            }
 
-            this.showCountdown(() => this.spinTo(index, result, text, button))
+            this.showCountdown(() =>
+              this.spinTo(index, result, text, button),
+            )
           } catch (error) {
             this.spinning = false
             button.setAlpha(1)
             text.setText("SPIN & WIN")
-            onError(error instanceof Error ? error.message : "We couldn't start your spin.")
+            onError(
+              error instanceof Error
+                ? error.message
+                : "We couldn't start your spin.",
+            )
           }
         }
 
         showCountdown(onComplete: () => void) {
           const { width, height } = this.scale
+
+          const overlay = this.add.graphics()
+          overlay.fillStyle(0x24030c, 0.25)
+          overlay.fillRect(0, 0, width, height)
+          overlay.setDepth(90)
+
           const count = this.add.text(width / 2, height / 2, "3", {
             fontFamily: "Arial, sans-serif",
             fontSize: "74px",
@@ -391,14 +735,15 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
               ease: "Back.Out",
               onComplete: () => {
                 if (step === steps.length - 1) {
-                  this.time.delayedCall(180, () => {
+                  this.time.delayedCall(160, () => {
+                    overlay.destroy()
                     count.destroy()
                     onComplete()
                   })
                   return
                 }
 
-                this.time.delayedCall(420, () => {
+                this.time.delayedCall(400, () => {
                   step += 1
                   next()
                 })
@@ -409,20 +754,31 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
           next()
         }
 
-        spinTo(index: number, result: PhaserSpinResult, text: any, button: any) {
+        spinTo(
+          index: number,
+          result: PhaserSpinResult,
+          text: any,
+          button: any,
+        ) {
           text.setText("SPINNING...")
 
           const current = Phaser.Math.RadToDeg(this.wheel.rotation)
           const targetModulo = -index * 60
-          const delta = Phaser.Math.Wrap(targetModulo - current, -180, 180)
-          const target = Phaser.Math.DegToRad(current + 360 * 8 + delta)
+          const delta = Phaser.Math.Wrap(
+            targetModulo - current,
+            -180,
+            180,
+          )
+          const target = Phaser.Math.DegToRad(
+            current + 360 * 8 + delta,
+          )
 
           this.lastTick = Math.floor(current / 60)
 
           this.tweens.add({
             targets: this.wheel,
             rotation: target,
-            duration: 5800,
+            duration: 6000,
             ease: "Cubic.easeOut",
             onUpdate: () => {
               const deg = Phaser.Math.RadToDeg(this.wheel.rotation)
@@ -449,8 +805,13 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
 
         tickSound() {
           try {
-            const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
-            if (!this.audioContext) this.audioContext = new AudioCtx()
+            const AudioCtx =
+              window.AudioContext ||
+              (window as any).webkitAudioContext
+
+            if (!this.audioContext) {
+              this.audioContext = new AudioCtx()
+            }
 
             const ctx = this.audioContext
             void ctx.resume()
@@ -461,8 +822,14 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
             oscillator.type = "triangle"
             oscillator.frequency.value = 640
             gain.gain.setValueAtTime(0.0001, ctx.currentTime)
-            gain.gain.exponentialRampToValueAtTime(0.07, ctx.currentTime + 0.005)
-            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.045)
+            gain.gain.exponentialRampToValueAtTime(
+              0.07,
+              ctx.currentTime + 0.005,
+            )
+            gain.gain.exponentialRampToValueAtTime(
+              0.0001,
+              ctx.currentTime + 0.045,
+            )
 
             oscillator.connect(gain)
             gain.connect(ctx.destination)
@@ -473,25 +840,28 @@ export function PhaserSpinGame({ resetSignal = 0, onResult, onError }: Props) {
 
         winBurst() {
           const { width } = this.scale
-          this.cameras.main.flash(260, 255, 214, 88)
-          this.cameras.main.shake(220, 0.006)
 
-          for (let i = 0; i < 36; i++) {
+          this.cameras.main.flash(300, 255, 214, 88)
+          this.cameras.main.shake(240, 0.007)
+
+          for (let i = 0; i < 48; i++) {
             const piece = this.add.rectangle(
               width / 2,
-              340,
-              6,
-              11,
-              [0xffd85f, 0xd6003c, 0x668f35][i % 3]
+              345,
+              5,
+              10,
+              [0xffd85f, 0xd6003c, 0x668f35, 0xffffff][i % 4],
             )
 
             this.tweens.add({
               targets: piece,
-              x: width / 2 + (i % 2 ? 1 : -1) * (80 + (i * 23) % 180),
-              y: 240 + ((i * 41) % 400),
+              x:
+                width / 2 +
+                (i % 2 ? 1 : -1) * (70 + ((i * 23) % 190)),
+              y: 210 + ((i * 41) % 450),
               angle: 180 + i * 35,
               alpha: { from: 1, to: 0 },
-              duration: 1100 + (i % 5) * 90,
+              duration: 1050 + (i % 5) * 100,
               ease: "Cubic.easeOut",
               onComplete: () => piece.destroy(),
             })
