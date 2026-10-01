@@ -316,6 +316,29 @@ export function PhaserSpinGame({
           diya.x += side * 0
         }
 
+        drawScrollOrnament(x: number, y: number, side: number) {
+          const scroll = this.add.graphics()
+          scroll.lineStyle(4, 0xe7b83f, 0.95)
+
+          scroll.beginPath()
+          scroll.moveTo(x, y)
+          for (let i = 0; i <= 18; i++) {
+            const t = i / 18
+            const angle = t * Math.PI * 2.1
+            const r = 34 * (1 - t)
+            scroll.lineTo(
+              x + side * (r * Math.cos(angle)),
+              y + r * Math.sin(angle),
+            )
+          }
+          scroll.strokePath()
+
+          scroll.lineStyle(2, 0xffe69a, 0.75)
+          scroll.strokeCircle(x + side * 28, y, 9)
+          scroll.fillStyle(0xeaa92e, 1)
+          scroll.fillCircle(x + side * 28, y, 4)
+        }
+
         drawKite(
           x: number,
           y: number,
@@ -385,25 +408,49 @@ export function PhaserSpinGame({
 
           const title = this.add.text(
             width / 2,
-            72,
+            71,
             "दशैं–तिहार अफर गेम",
             {
               fontFamily: "Arial, sans-serif",
-              fontSize: "24px",
+              fontSize: "18px",
               fontStyle: "bold",
               color: "#a20b2f",
               stroke: "#fff3c6",
               strokeThickness: 2,
+              align: "center",
+              wordWrap: { width: width - 112 },
             },
           ).setOrigin(0.5)
 
-          this.add.text(width / 2, 117, "20D CINEMA  •  SPIN & WIN", {
+          let playerName = ""
+          try {
+            const saved = sessionStorage.getItem("20d-spin-participant")
+            if (saved) {
+              playerName = JSON.parse(saved)?.name ?? ""
+            }
+          } catch {}
+
+          this.add.text(
+            width / 2,
+            100,
+            playerName ? `Good luck, ${playerName}!` : "Good luck!",
+            {
+              fontFamily: "Arial, sans-serif",
+              fontSize: "9px",
+              fontStyle: "bold",
+              color: "#7b1730",
+              backgroundColor: "#fff0c5",
+              padding: { left: 10, right: 10, top: 5, bottom: 5 },
+            },
+          ).setOrigin(0.5)
+
+          this.add.text(width / 2, 126, "20D CINEMA  •  SPIN & WIN", {
             fontFamily: "Arial, sans-serif",
-            fontSize: "10px",
+            fontSize: "8px",
             fontStyle: "bold",
             color: "#fff3c7",
             backgroundColor: "#7e0c26",
-            padding: { left: 12, right: 12, top: 6, bottom: 6 },
+            padding: { left: 10, right: 10, top: 5, bottom: 5 },
           }).setOrigin(0.5)
 
           this.tweens.add({
@@ -419,8 +466,8 @@ export function PhaserSpinGame({
         createWheel() {
           const { width } = this.scale
           const cx = width / 2
-          const cy = 355
-          const radius = 139
+          const cy = 360
+          const radius = 148
           const slice = Phaser.Math.DegToRad(60)
           const start = Phaser.Math.DegToRad(-120)
 
@@ -563,6 +610,9 @@ export function PhaserSpinGame({
             cy - radius - 10,
           )
 
+          this.drawScrollOrnament(width / 2 - 125, cy + radius + 34, 1)
+          this.drawScrollOrnament(width / 2 + 125, cy + radius + 34, -1)
+
           const pointerGlow = this.add.circle(
             cx,
             cy - radius - 18,
@@ -583,18 +633,18 @@ export function PhaserSpinGame({
 
         createSpinButton() {
           const { width, height } = this.scale
-          this.spinButton = this.add.container(width / 2, height - 76)
+          this.spinButton = this.add.container(width / 2, height - 82)
 
           const panel = this.add.graphics()
           panel.fillStyle(0x760d25, 1)
-          panel.fillRoundedRect(-170, -44, 340, 88, 18)
+          panel.fillRoundedRect(-170, -48, 340, 96, 18)
           panel.lineStyle(2, 0xf0c95a, 1)
           panel.strokeRoundedRect(-170, -44, 340, 88, 18)
           panel.lineStyle(1, 0xffe8a0, 0.35)
-          panel.strokeRoundedRect(-162, -37, 324, 74, 14)
+          panel.strokeRoundedRect(-162, -41, 324, 82, 14)
           this.spinButton.add(panel)
 
-          this.add.text(width / 2, height - 107, "READY TO WIN?", {
+          this.add.text(width / 2, height - 117, "YOUR CHANCE TO WIN", {
             fontFamily: "Arial, sans-serif",
             fontSize: "9px",
             fontStyle: "bold",
@@ -604,9 +654,9 @@ export function PhaserSpinGame({
 
           const button = this.add.graphics()
           button.fillGradientStyle(0xffe35a, 0xf4b51f, 0xe79213, 0xffca34, 1)
-          button.fillRoundedRect(-110, -22, 220, 44, 22)
+          button.fillRoundedRect(-112, -22, 224, 44, 22)
           button.lineStyle(2, 0xfff4ae, 1)
-          button.strokeRoundedRect(-110, -22, 220, 44, 22)
+          button.strokeRoundedRect(-112, -22, 224, 44, 22)
           this.spinButton.add(button)
 
           const text = this.add.text(0, 0, "SPIN & WIN", {
