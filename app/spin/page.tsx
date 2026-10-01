@@ -6,9 +6,9 @@ import { ArrowLeft, Check, Clipboard, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import {
-  PhaserSpinGame,
-  type PhaserSpinResult,
-} from "@/components/phaser-spin-game"
+  SpinGame,
+  type SpinGameResult,
+} from "@/components/spin-game"
 import { Button } from "@/components/ui/button"
 
 const labels: Record<string, string> = {
@@ -22,12 +22,12 @@ const labels: Record<string, string> = {
 
 export default function SpinPage() {
   const router = useRouter()
-  const [result, setResult] = useState<PhaserSpinResult | null>(null)
+  const [result, setResult] = useState<SpinGameResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [resetSignal, setResetSignal] = useState(0)
   const [copied, setCopied] = useState(false)
 
-  const handleResult = useCallback((next: PhaserSpinResult) => {
+  const handleResult = useCallback((next: SpinGameResult) => {
     setResult(next)
   }, [])
 
@@ -61,7 +61,7 @@ export default function SpinPage() {
           <ArrowLeft className="size-4" />
         </Link>
 
-        <PhaserSpinGame
+        <SpinGame
           resetSignal={resetSignal}
           onResult={handleResult}
           onError={handleError}
