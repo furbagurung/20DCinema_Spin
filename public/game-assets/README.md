@@ -1,16 +1,10 @@
 # 20D Cinema Spin Game Assets
 
-Copy the `assets/` folder from the supplied `20d-spin-game` source ZIP into this directory and keep these filenames:
+The live Next.js game uses the optimized composite assets:
 
-- background.webp
-- festival-banner.webp
-- 20d-logo.webp
-- wheel.webp
-- hub.webp
-- pointer.webp
-- pedestal.webp
-- spin-button.webp
+- `game-frame.webp` — fixed Dashain/Tihar artwork, logo, wheel rim, pointer, hub, pedestal and panel.
+- `wheel-inner.webp` — rotating prize-wheel artwork.
 
-The client spin UI references these files from `/game-assets/`.
+The original source artwork is in the supplied `20d-spin-game` ZIP if further visual editing is needed.
 
-The game result is still selected server-side through `/api/spin`; the client only animates the wheel to the returned prize slot.
+The prize result is still selected server-side through `/api/spin`; the client only animates the wheel to the returned prize slot.
