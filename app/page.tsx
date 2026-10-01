@@ -5,106 +5,94 @@ import { motion } from "motion/react"
 import { Gift, Sparkles } from "lucide-react"
 
 import { DashainDecor } from "@/components/dashain-decor"
+import { DashainWheelPreview } from "@/components/dashain-wheel-preview"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ParticipantForm } from "@/components/participant-form"
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 
 export default function Home() {
   return (
-    <main className="dashain-client relative flex min-h-svh items-center justify-center overflow-hidden px-4 py-7 text-foreground sm:px-6 sm:py-10">
+    <main className="dashain-client relative min-h-svh overflow-hidden px-3 py-5 text-foreground sm:px-5 sm:py-8">
       <DashainDecor />
 
-      <div className="absolute right-4 top-4 z-30 sm:right-6 sm:top-6">
+      <div className="absolute right-3 top-3 z-50 sm:right-5 sm:top-5">
         <ThemeToggle />
       </div>
 
-      <section className="relative z-10 w-full max-w-md">
+      <section className="relative z-10 mx-auto w-full max-w-[430px]">
         <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: -14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="mx-auto mb-5 flex w-fit items-center gap-2 rounded-full border border-[#E8B94F]/35 bg-[#E8B94F]/10 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#B98A28] dark:text-[#F3D47A]">
-            <Sparkles className="size-3" />
-            Dashain Special
-          </div>
-
-          <div className="relative mx-auto w-fit">
-            <div className="absolute left-1/2 top-1/2 size-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D6003C]/20 blur-2xl" />
-            <div className="relative rounded-2xl border border-[#E8B94F]/35 bg-[#100A0C] px-5 py-2.5 shadow-[0_16px_50px_rgba(214,0,60,0.16)]">
-              <Image
-                src="/logo/White Reversed 20D Cinema Secondary Logo.png"
-                alt="20D Cinema"
-                width={220}
-                height={90}
-                priority
-                className="h-auto w-36 sm:w-40"
-              />
-            </div>
-          </div>
-
-          <p className="mt-7 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#B98A28] dark:text-[#F3D47A]">
-            Dashain ko khusi · 20D ko surprise
-          </p>
-
-          <h1 className="mt-2 font-heading text-[2rem] font-semibold uppercase leading-none tracking-[0.06em] sm:text-4xl">
-            Spin <span className="text-[#D6003C]">&amp;</span> Win
-          </h1>
-
-          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
-            Enter your details, spin the wheel, and discover your Dashain reward.
-          </p>
-        </motion.div>
-
-        <motion.div
-          className="mt-7"
-          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          className="dashain-game-frame relative overflow-hidden rounded-[30px] border-[3px] border-[#D9AD3C] bg-[#5E071A] p-1 shadow-[0_25px_80px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,229,151,0.35)]"
+          initial={{ opacity: 0, y: 18, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Card className="dashain-card overflow-hidden border-[#D6003C]/15 bg-card/95 shadow-[0_24px_80px_rgba(75,7,21,0.16)] backdrop-blur-xl">
-            <div className="h-1 w-full bg-gradient-to-r from-[#31521E] via-[#E8B94F] to-[#D6003C]" />
+          <div className="relative overflow-hidden rounded-[24px] border border-[#F2D06C]/65 bg-[#760A22]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,210,73,0.16),transparent_32%),linear-gradient(180deg,#7F0A23_0%,#5A0719_100%)]" />
 
-            <CardHeader className="pb-2 text-center">
-              <div className="mx-auto flex size-10 items-center justify-center rounded-xl bg-[#D6003C]/10 text-[#D6003C]">
-                <Gift className="size-5" />
+            <header className="relative z-20 px-4 pb-3 pt-4 text-center sm:px-6 sm:pt-5">
+              <div className="mx-auto w-fit rounded-lg border border-[#F1D06B]/60 bg-[#FFF4D0] px-5 py-1.5 shadow-[0_5px_16px_rgba(0,0,0,0.25)]">
+                <Image
+                  src="/logo/White Reversed 20D Cinema Secondary Logo.png"
+                  alt="20D Cinema"
+                  width={220}
+                  height={90}
+                  priority
+                  className="h-auto w-32 sm:w-36"
+                />
               </div>
 
-              <CardTitle className="mt-2 text-lg">Enter &amp; Play</CardTitle>
-              <CardDescription>
-                Your name and Nepal mobile number are all you need.
-              </CardDescription>
-            </CardHeader>
+              <p className="mt-3 text-[9px] font-semibold tracking-[0.2em] text-[#FFEAA4]">
+                गेम खेल्नुहोस्, उपहार जित्नुहोस्
+              </p>
+              <h1 className="mt-1 text-[25px] font-black leading-tight tracking-[-0.02em] text-[#FFD85F] [text-shadow:0_2px_0_#7C2600,0_4px_12px_rgba(0,0,0,0.35)] sm:text-3xl">
+                दशैं–तिहार अफर गेम
+              </h1>
+              <div className="mx-auto mt-2 h-1 w-24 rounded-full bg-gradient-to-r from-[#E69A1A] via-[#FFE57A] to-[#E69A1A]" />
+            </header>
 
-            <CardContent>
-              <ParticipantForm />
-            </CardContent>
-          </Card>
+            <div className="relative z-10 mx-3 overflow-hidden rounded-[20px] border border-[#F4D46F]/50 bg-[#2B5F9A] shadow-[inset_0_0_50px_rgba(0,0,0,0.2)] sm:mx-4">
+              <div className="relative h-[150px] overflow-hidden bg-gradient-to-b from-[#2F82CF] via-[#7FC5E8] to-[#F2C77B] sm:h-[175px]">
+                <div className="absolute inset-x-0 top-0 h-16 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.65),transparent_24%),radial-gradient(circle_at_72%_22%,rgba(255,255,255,0.55),transparent_20%)]" />
+
+                <div className="absolute left-[10%] top-5 rotate-[-18deg] text-xl sm:text-2xl">🪁</div>
+                <div className="absolute right-[12%] top-8 rotate-[18deg] text-xl sm:text-2xl">🪁</div>
+
+                <div className="absolute bottom-[-30px] left-[-6%] h-28 w-[62%] rotate-[7deg] bg-[#355A70] [clip-path:polygon(0_100%,18%_42%,34%_64%,51%_20%,70%_57%,84%_34%,100%_100%)] opacity-90" />
+                <div className="absolute bottom-[-26px] right-[-8%] h-28 w-[68%] rotate-[-6deg] bg-[#496F7C] [clip-path:polygon(0_100%,18%_55%,34%_28%,50%_63%,68%_18%,82%_48%,100%_100%)] opacity-95" />
+
+                <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[#7E4B20]/65 to-transparent" />
+
+                <div className="absolute left-1.5 top-0 flex h-full flex-col justify-between py-3 text-[15px] sm:text-lg">
+                  <span>🌼</span><span>🌼</span><span>🌼</span><span>🌼</span>
+                </div>
+                <div className="absolute right-1.5 top-0 flex h-full flex-col justify-between py-3 text-[15px] sm:text-lg">
+                  <span>🌼</span><span>🌼</span><span>🌼</span><span>🌼</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10 px-3 pb-3 pt-5 sm:px-5">
+              <DashainWheelPreview />
+
+              <div className="mt-5 rounded-[18px] border border-[#F1C85B]/60 bg-[#8A102A] p-3 shadow-[inset_0_0_20px_rgba(0,0,0,0.22)] sm:p-4">
+                <div className="mb-2 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#FFEAA2]">
+                  <Gift className="size-3.5" />
+                  Enter your details to play
+                </div>
+
+                <ParticipantForm />
+              </div>
+
+              <div className="mt-3 flex items-center justify-center gap-2 text-[9px] font-medium text-[#FFE8A0]/75">
+                <Sparkles className="size-3" />
+                One spin per phone number · Terms apply
+              </div>
+            </div>
+          </div>
         </motion.div>
 
-        <motion.div
-          className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[10px] text-muted-foreground"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.45, delay: 0.3 }}
-        >
-          <Badge
-            variant="outline"
-            className="border-[#668F35]/25 bg-[#668F35]/5 text-[#49652A] dark:text-[#A9C77C]"
-          >
-            1 spin per phone
-          </Badge>
-          <span>•</span>
-          <span>20D Cinema · KL Tower · Kathmandu</span>
-        </motion.div>
+        <p className="relative z-10 mt-4 text-center text-[10px] text-muted-foreground">
+          20D Cinema · KL Tower · Chuchepati, Kathmandu
+        </p>
       </section>
     </main>
   )
