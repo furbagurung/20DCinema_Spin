@@ -276,7 +276,7 @@ export function SpinWheel() {
           type="button"
           onClick={spin}
           disabled={isRequesting || isSpinning || selectedIndex !== null}
-          className="relative h-13 w-full overflow-hidden rounded-xl bg-[#D6003C] text-sm font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_36px_rgba(214,0,60,0.22)] hover:bg-[#BE0036] focus-visible:ring-[#D6003C]/30"
+          className="relative h-13 w-full overflow-hidden rounded-xl border border-[#FFE88A]/60 bg-gradient-to-b from-[#FFD95C] via-[#F6B51E] to-[#E68A12] text-sm font-extrabold uppercase tracking-[0.12em] text-[#6B1021] shadow-[0_12px_28px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.65)] hover:brightness-105 focus-visible:ring-[#FFE08A]/40"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
