@@ -18,7 +18,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="dashain-client relative flex min-h-svh items-center justify-center overflow-hidden bg-background px-4 py-7 text-foreground sm:px-6 sm:py-10">
+    <main className="dashain-client relative flex min-h-svh items-center justify-center overflow-hidden px-4 py-7 text-foreground sm:px-6 sm:py-10">
       <DashainDecor />
 
       <div className="absolute right-4 top-4 z-30 sm:right-6 sm:top-6">
