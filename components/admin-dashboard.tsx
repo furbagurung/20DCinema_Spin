@@ -428,7 +428,7 @@ export function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
                 {kpis.map((kpi) => (
                   <Card key={kpi.label}>
                     <CardContent className="p-5">
@@ -668,7 +668,7 @@ export function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {data.prizes.map((prize) => (
                   <PrizeRow
                     key={prize.key}
