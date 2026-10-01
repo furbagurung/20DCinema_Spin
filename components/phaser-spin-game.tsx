@@ -158,18 +158,14 @@ export function PhaserSpinGame({
           ornament.lineStyle(2, 0xe4bb4e, 0.8)
           ornament.beginPath()
           ornament.moveTo(x, y)
-          ornament.quadraticBezierTo(
-            x + sx * 22,
-            y,
-            x + sx * 25,
-            y + sy * 12,
-          )
-          ornament.quadraticBezierTo(
-            x + sx * 25,
-            y + sy * 25,
-            x + sx * 12,
-            y + sy * 25,
-          )
+          ornament.lineTo(x + sx * 8, y)
+          ornament.lineTo(x + sx * 16, y + sy * 1)
+          ornament.lineTo(x + sx * 22, y + sy * 5)
+          ornament.lineTo(x + sx * 25, y + sy * 12)
+          ornament.lineTo(x + sx * 25, y + sy * 19)
+          ornament.lineTo(x + sx * 22, y + sy * 24)
+          ornament.lineTo(x + sx * 16, y + sy * 25)
+          ornament.lineTo(x + sx * 12, y + sy * 25)
           ornament.strokePath()
           ornament.fillStyle(0xf3c74c, 0.85)
           ornament.fillCircle(x + sx * 6, y + sy * 6, 3)
